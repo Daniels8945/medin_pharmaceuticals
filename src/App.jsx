@@ -4,7 +4,10 @@ import Products from "./components/ProductsPage";
 import AboutUs from "./components/AboutUs"; 
 import Footer from "./components/Footer"; 
 import Contact from "./components/Contact"; 
+
 function App() {
+
+
   return (
     <div>
           <Header />

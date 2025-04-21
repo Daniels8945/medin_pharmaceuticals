@@ -38,10 +38,13 @@ const AddProducts = () => {
     }
 
     return ( 
-        <div className="relative bg-lightgreen-100 py-24 px-12">
-            <Link to={"/dashboard"} className='text-2xl font-semibold flex items-center gap-2 cursor-pointer hover:underline '><IoArrowBack className='text-green-500'/> Products</Link>
-            <h2 className="mt-4 text-4xl font-semibold font-raleway pb-8">Add a New Product</h2>
-            <div className='flex flex-col items-center justify-center'>
+        <div className="relative bg-lightgreen-100">
+            
+            <div  className="gap-2 z-10 sticky top-0 px-4 xl:px-12 shadow-md flex flex-col xl:flex-row xl:items-center-safe justify-center xl:justify-between bg-white w-full h-[100px]">
+                <Link to={"/dashboard"} className='text-2xl font-semibold flex items-center gap-2 cursor-pointer hover:underline '><IoArrowBack className='text-green-500'/> Products</Link>
+                <h2 className="mt-4 text-4xl font-semibold font-raleway pb-8 text-green-500">Add a New Product</h2>
+            </div>
+            <div className='flex flex-col items-center justify-center py-12 px-12'>
                 <form onSubmit={handleSubmit} className='flex flex-row gap-8'>
                     <div className='w-md'>
                         <label className="flex  text-1xl font-bold font-raleway gap-4 pt-4">Product Name:</label>

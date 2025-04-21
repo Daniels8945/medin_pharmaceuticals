@@ -11,8 +11,7 @@ import {
 import { Link } from "react-router-dom"
 import useFetch from "./useFetch";
 
-function Products() {
-
+function Products() { 
   const { data: allProducts } = useFetch('http://localhost:5172/allProducts');
 
   return (

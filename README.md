@@ -17,5 +17,5 @@
     npm install -g json-server
     npx json-server --watch data/db.json --port 5172
     npm install react-router-dom npm install --save-dev express cors
-
+     npm install react-use-scroll-snap
     node server.js // to start the login server

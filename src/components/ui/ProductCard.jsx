@@ -1,4 +1,5 @@
 import { IoArrowForward } from "react-icons/io5";
+import { Link } from "react-router-dom";
  
 function ProductCard ({name, description, image}) {
 return (
@@ -7,7 +8,7 @@ return (
           <div className=" flex flex-col w-full p-4 gap-2">
             <h3 className="break-all text-2xl font-semibold font-raleway">{name}</h3>
             <p className="break-all text-gray-500 font-raleway truncate">{description}</p>
-            <button className="break-all cursor-pointer text-black mt-4 font-bold font-raleway flex items-center gap-4">View {name} details<IoArrowForward className="text-green-500 text-lg" /></button>
+            <Link to={"/exploreproducts"} className="break-all cursor-pointer text-black mt-4 font-bold font-raleway flex items-center gap-4">View {name} details<IoArrowForward className="text-green-500 text-lg" /></Link>
           </div>
         </div>
   );

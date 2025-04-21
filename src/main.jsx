@@ -9,6 +9,7 @@ import NotFoundPage from './components/Notfound';
 import AddProducts from './components/Dashboard/AddProducts'; //dashboard
 import Mission from './components/mission';
 import ExploreProducts from './components/ExploreProducts';
+// import Products from "./components/ProductsPage"
 
 const router = createBrowserRouter([
   { path:"/", element: <App /> },
@@ -16,7 +17,8 @@ const router = createBrowserRouter([
   { path:"*", element: <NotFoundPage /> },
   { path:"/addproducts", element: < AddProducts /> },
   { path:"/mission&vission", element: <Mission />},
-  { path:"/exploreproducts", element: <ExploreProducts />}
+  { path:"/exploreproducts", element: <ExploreProducts />},
+  // { path:"/products", element: <Products />}
 
 ])
 createRoot(document.getElementById('root')).render(
