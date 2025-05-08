@@ -32,8 +32,6 @@
     /* ... */
   }
 
-/* <div className="bg-zinc-800 flex text-white overflow-y-auto no-scrollbar"></div> */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

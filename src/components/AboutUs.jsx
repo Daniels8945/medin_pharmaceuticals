@@ -59,7 +59,7 @@ function AboutUs() {
                         <h2 className="pb-10 text-4xl xl:text-5xl font-bold font-raleway">Medin Pharmaceuticals</h2>
                         <p className="xl:w-sm text-[14px] xl:text-[14px] font-medium font-raleway">MED-IN Pharmaceutical Intravenous (I.V) fluid production plant began operations with its existing plant in the year 2018, after the registration of it’s premises by the Pharmaceutical Council of Nigeria (PCN). The current operating and product plant had it’s product approved by the National Agency for Food and Drug Administration (NAFDAC) in the same year. The Intravenous (I.V.) factory is situated on Lagos-Ibadan Expressway, near Shagamu Interchange, Ogun State, with an installed capacity of 3.6million bottles per annum with allowance for 500% expansion of the installed capacity. However, currently there is an on-going project to install equipment – Rommelag 360 – with a capacity of 21 million bottles per annum and Rommelag 360M in 2021</p>
                         <Link to={"/mission&vission"}>
-                            <button className="flex items-center text-2xl font-bold font-raleway gap-4 pt-4 cursor-pointer hover:underline">Mission & Vission <FaExternalLinkAlt className="text-green-500" /></button>
+                            <button className="flex items-center text-2xl font-bold font-raleway gap-4 pt-4 cursor-pointer hover:underline">Mission & Vision <FaExternalLinkAlt className="text-green-500" /></button>
                         </Link>
                     </div>
                    <div className="xl:w-3xl min-h-[400px]">

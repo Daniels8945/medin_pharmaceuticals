@@ -23,7 +23,7 @@ function Mission() {
                 </div>
 
                 <div className="flex flex-col gap-6">
-                    <h1  className="mt-4 text-5xl font-semibold font-raleway hover:scale-[1.050] hover:text-green-500 transition-all duration-300 ease-in-out">Vission</h1>
+                    <h1  className="mt-4 text-5xl font-semibold font-raleway hover:scale-[1.050] hover:text-green-500 transition-all duration-300 ease-in-out">Vision</h1>
                     <p className="font-worksans font-medium hover:scale-[1.015] transition-all duration-300 ease-in-out">Meeting the health sector needs through the production of quality parenteral pharmaceutical products at affordable cost.</p>
                 </div>
             
