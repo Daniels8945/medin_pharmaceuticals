@@ -21,11 +21,9 @@ const useFetch = (url) => {
                 setData(data)
                 setIspending(false)
                 setError(null)
-                // console.log(data)
             })
             .catch(error => {
                 if (error.name === "AbortError"){
-                    // console.log('Fetch Aborted')
                     return
                 }
                 setIspending(false)

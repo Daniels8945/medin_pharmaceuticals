@@ -1,28 +1,41 @@
 import React from 'react'
 import './index.css'
 import App from './App.jsx'
-import Main from   "./components/Dashboard/main";
 import { createRoot } from 'react-dom/client'
-import { StrictMode } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import NotFoundPage from './components/Notfound';
-import AddProducts from './components/Dashboard/AddProducts'; //dashboard
+import AddProducts from './Dashboard/AddProducts'; //dashboard
 import Mission from './components/mission';
 import ExploreProducts from './components/ExploreProducts';
-// import Products from "./components/ProductsPage"
+import BoardOfDirectors from "./pages/BoardOfDirectors"
+import OurCompany from "./pages/OurCompany"
+import OurWorkplace from "./pages/OurWorkplace"
+import Login from './Dashboard/Login'; // Login
+import Products from "./Dashboard/Allproducts"
+import PrivateRoute from './Dashboard/Main';
+import { AuthProvider } from "./Dashboard/AuthContext"
+
 
 const router = createBrowserRouter([
-  { path:"/", element: <App /> },
-  { path:"/dashboard", element: <Main /> },
   { path:"*", element: <NotFoundPage /> },
-  { path:"/addproducts", element: < AddProducts /> },
+  { path:"/", element: <App /> },
+  { path:"/login", element: <Login /> }, 
+  {
+    element: <PrivateRoute />,
+    children: [
+      { path: "/addproducts", element: <AddProducts /> },
+      { path: "/dashboard", element: <Products /> },
+    ],
+  },
+
   { path:"/mission&vission", element: <Mission />},
   { path:"/exploreproducts", element: <ExploreProducts />},
-  // { path:"/products", element: <Products />}
-
+  { path:"/bod", element: <BoardOfDirectors />},
+  { path:"/our-company", element: <OurCompany />},
+  { path:"/our-workplace", element: <OurWorkplace />},
 ])
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  <AuthProvider>
     <RouterProvider router={router} />
-  </StrictMode>
+  </AuthProvider>
 )

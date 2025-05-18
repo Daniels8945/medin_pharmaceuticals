@@ -1,27 +1,15 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
-// import { Link } from "react-router-dom";
-// import { LogIn } from "lucide-react";
-
-async function loginUser(credentials) {
-    return fetch('http://localhost:5175/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(credentials)
-    })
-      .then(data => data.json())
-   }
-   
-
-export default function Login({ setToken }){
+export default function Login(){
+    const { login }  = useAuth();
+    
+    const navigate = useNavigate()
     const [formData, setFormData] = React.useState({
         email: "",
         password: "",
     });
-
     
     const handelChange = (e) => {
         const {id , value} = e.target
@@ -30,12 +18,12 @@ export default function Login({ setToken }){
 
     const handelSubmit = async (event) => {
         event.preventDefault();
-        const token = await loginUser({
-            formData
-        });
-        setToken(token)
-        console.log("Form submitted successfully:", formData)
-    }
+        try {
+            await login(formData.email, formData.password);
+            navigate("/dashboard");
+        } catch (error) {
+             console.error("Login failed:", error);
+        }}
     
     
     return(
@@ -74,12 +62,6 @@ export default function Login({ setToken }){
                     <div className="flex w-full" >
                         <div className="mx-6.5 flex w-full gap-2">
                         <button onClick={handelSubmit} type="submit"  className="bg-green-500 w-[280px]- w-full h-[39px] cursor-pointer text-white font-inter font-bold text-[12px] rounded-[8px]">Sign In</button>
-
-                            {/* <Link to="/signup" className="bg-green-500 w-[100px] h-[39px] cursor-pointer text-white font-inter font-bold text-[12px] rounded-[8px]">
-                            <button className="bg-green-500 w-[100px] h-[39px] cursor-pointer text-white font-inter font-bold text-[12px] rounded-[8px]">Sign Up</button>
-                            </Link> */}
-
-                            {/* <button className="bg-black w-[100px] h-[39px] cursor-pointer text-white font-inter font-bold text-[12px] rounded-[8px]">Sing In</button> */}
                         </div>
                     </div>
                 </div>
@@ -87,8 +69,4 @@ export default function Login({ setToken }){
             </form>
         </div>
     )
-}
-
-Login.propTypes = {
-    setToken: PropTypes.func.isRequired
 }

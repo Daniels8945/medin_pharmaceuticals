@@ -9,11 +9,18 @@ import {
   CarouselPrevious,
 } from "./ui/carousel"
 import { Link } from "react-router-dom"
-import useFetch from "./useFetch";
+import { getItems } from "@/appwrite";
 
-function Products() { 
-  const { data: allProducts } = useFetch('http://localhost:5172/allProducts');
-
+function Products() {
+      const [products, setProducts] = React.useState([]);
+      React.useEffect(() => {
+          const loadItems = async () => {
+          const data = await getItems();
+          setProducts(data);
+          };
+          loadItems();
+      }, []);
+      
   return (
     <div className="bg-lightgreen-100 w-full py-22 md:py-12 sm:py:12 xl:py-26 flex flex-col items-center">
       <div className="w-full max-w-7xl px-4 xl:px-12 flex flex-col gap-12">
@@ -32,10 +39,11 @@ function Products() {
                     <button className=" bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition duration-300"></button>
                   </CarouselPrevious>
                   <CarouselContent className="-ml-4">
-                    {allProducts &&  allProducts.map((product, id) => (
+                    {products &&  products.map((product, id) => (
                       <CarouselItem className="pl-4 md:basis-1/3 sm:basis-1/3 xl:basis-1/3" key={id} >
                         <ProductCard
-                          image={product.image}
+                          imageId={product.imageId}
+                          image={product.imageUrl}
                           name={product.name}
                           description={product.description}
                           />

@@ -1,11 +1,19 @@
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom"
-import useFetch from "../UseFetch";
 import ProductItems from "./ui/Allproducts";
+import { getItems } from "@/appwrite";
+import * as React from "react";
 
 function Products(){
+    const [products, setProducts] = React.useState([]);
+    React.useEffect(() => {
+        const loadItems = async () => {
+        const data = await getItems();
+        setProducts(data);
+        };
+        loadItems();
+    }, []);
 
-    const { data: allProducts } = useFetch('http://localhost:5172/allProducts');
     return(
         <div className="flex flex-col gap-8">
            <div  className="gap-2 z-10 sticky top-0 px-4 xl:px-12 shadow-md flex flex-col xl:flex-row xl:items-center-safe justify-center xl:justify-between bg-white w-full h-[100px]">
@@ -13,12 +21,15 @@ function Products(){
                 <Link to="/addproducts" className="flex items-center text-2xl font-bold font-raleway gap-4 pt-4 cursor-pointer hover:underline"> Add Products <FaExternalLinkAlt className="text-green-500" /> </Link>
            </div>
 
-            { allProducts && allProducts.map((product, id) => (
+            { products && products.map((product, id) => (
                 <div key={id} className="mx-12 py-12">
                 <ProductItems
-                    image={product.image}
+                    id={product.$id}
+                    imageId={product.imageId}
+                    image={product.imageUrl}
                     name={product.name}
                     description={product.description}
+                    
                 />
                 </div>
             ))}            
