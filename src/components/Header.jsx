@@ -31,12 +31,6 @@ const items = [
     name: "New Product",
     description: "iV fluid",
   },
-  {
-    company: "Our Company",
-    directors: "Board Of Directors",
-    work_place: "Our work Place",
-    partners: "Our Partners",
-  }
 ]
 
 
@@ -174,20 +168,23 @@ const menu = (
                                        height:"100%"
                                    }}/>
                               <p className="text-sm leading-tight text-muted-foreground">
-                                Beautifully designed components built with Radix UI and
-                                Tailwind CSS.
+                                We create healthy innovations to make healthcare
+                                affordable and accessible to the Nigerian health sector.
                               </p>
                             </a>
                               </NavigationMenuLink>
                             </li>
                             <ListItem href="/our-company" title="Our Comapany">
-                              Re-usable components built using Radix UI and Tailwind CSS.
+                                We create healthy innovations to make healthcare
+                                affordable and accessible to the Nigerian health sector.
                             </ListItem>
                            <ListItem href="/bod" title="Board Of Directors">
-                              Re-usable components built using Radix UI and Tailwind CSS.
+                                We create healthy innovations to make healthcare
+                                affordable and accessible to the Nigerian health sector.
                             </ListItem>
                             <ListItem href="/our-workplace" title="Our Work Place and Partners">
-                              Re-usable components built using Radix UI and Tailwind CSS.
+                                We create healthy innovations to make healthcare
+                                affordable and accessible to the Nigerian health sector.
                             </ListItem>
                       </ul>
                   </NavigationMenuContent>
