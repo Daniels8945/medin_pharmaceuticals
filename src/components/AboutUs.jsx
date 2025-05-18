@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 
 function AboutUs() {
-    const vidUrl = "https://www.youtube.com/watch?v=rcH_FStWob4?si=VS3w0CiVBZeUjy8R"
+    const vidUrl = "https://youtu.be/lmVzPh3M4ec?si=_bxEI3kCByTFZ5de"
 
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4 xl:px-12 md:py-12 sm:py-12 xl:py-26">

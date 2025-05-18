@@ -1,10 +1,19 @@
 import { Link } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
-import useFetch from "./useFetch";
 import ExploreProductsUI from "./ui/ExploreProductsUI";
+import * as React from "react";
+import { getItems } from "@/appwrite";
 
 function ExploreProducts(){
-    const { data: allProducts, error, isPending } = useFetch('http://localhost:5172/allProducts');
+        const [products, setProducts] = React.useState([]);
+        React.useEffect(() => {
+            const loadItems = async () => {
+            const data = await getItems();
+            setProducts(data);
+            };
+            loadItems();
+        }, []);
+    
     return(
         <div>
             <div className="z-10 sticky top-0 px-4 xl:px-12 shadow-md flex flex-col xl:flex-row  xl:items-center-safe justify-center xl:justify-between bg-white w-full h-[100px]">
@@ -13,11 +22,10 @@ function ExploreProducts(){
             </div>  
             
             <div className="xl:grid xl:grid-cols-2 flex flex-wrap py-24 xl:px-16 px-4 gap-5 justify-center">
-                { isPending && <div>loading...</div>}
-                { error && <div>{ error }</div>}
-                { allProducts && allProducts.map((product, id) => (
+                { products&& products.map((product, id) => (
                 <ExploreProductsUI key={id}
-                    image={product.image}
+                    imageId={product.imageId}
+                    image={product.imageUrl}
                     name={product.name}
                     description={product.description}
                     />

@@ -1,18 +1,210 @@
+"use client"
+
 import logo from "../assets/logo.png";
 import { CiMenuFries } from "react-icons/ci";
 import { RiCloseLargeLine } from "react-icons/ri";
 import React from "react";
 import { Link } from "react-router-dom";
+import ReactPlayer from "react-player"
 
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "@/components/ui/navigation-menu"
+
+const items = [
+  {
+   name: "New Product",
+   description: "iV fluid",
+  },
+  {
+   name: "New Product",
+   description: "iV fluid",
+  },
+  {
+    name: "New Product",
+    description: "iV fluid",
+  },
+  {
+    company: "Our Company",
+    directors: "Board Of Directors",
+    work_place: "Our work Place",
+    partners: "Our Partners",
+  }
+]
+
+
+const ListItem = React.forwardRef(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground" +
+            className
+          }
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  )
+})
+ListItem.displayName = "ListItem"
+
+
+const vidUrl = "https://youtu.be/JNIeYp4z41E?si=VHcbssEJfxa6jQQw"
 const menu = (
-        <div className="w-[346px] justify-between flex items-center ml-4 h-[40px] font-raleway font-bold">
-            <Link to="/">Home</Link>
+        <div className="w-[400px] justify-between flex items-center ml-4 h-[40px] font-raleway font-bold">
+          
+            {/* <Link to="/">Home</Link>
             <Link to="/Products">Products</Link>
             <Link to="/Contact">Contact Us</Link>
-            <Link to="/AboutUs">About Us</Link>
+            <Link to="/AboutUs">About Us</Link> */}
+
+            <NavigationMenu>
+              <NavigationMenuList>
+                
+                  <NavigationMenuItem>
+                        <Link to="/">
+                          <NavigationMenuLink>Home</NavigationMenuLink>
+                        </Link>
+                  </NavigationMenuItem>
+
+
+
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="font-raleway font-bold">Products</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                          <li className="row-span-3">
+                            <NavigationMenuLink asChild>
+                              <a
+                                className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                                href="/"
+                              >
+                              
+                                <div className="mb-2 mt-4 text-lg font-medium">
+                                  Our Products
+                                </div>
+                                <p className="text-sm leading-tight text-muted-foreground">
+                                Our suite of cutting edge technology has been effective to drive innovation and provide precise and accurate data for our products.
+                                </p>
+                              </a>
+                                </NavigationMenuLink>
+                              </li>
+                              {items.map((item) => 
+                                <ListItem 
+                                key={item}
+                                title={item.name}
+                                children={item.description}
+                                >
+                                </ListItem>
+                              )}
+                        </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                  <NavigationMenuTrigger className="font-raleway font-bold">Investors</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                          <li className="row-span-3">
+                            <NavigationMenuLink asChild>
+                              <a
+                                className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                                href="/"
+                              >
+                                <div className="mb-2 mt-4 text-lg font-medium">
+                                  {/* Our Products */}
+                                </div>
+                                <p className="text-sm leading-tight text-muted-foreground">
+                                  {/* Our suite of cutting edge technology has been effective to drive innovation and provide precise and accurate data for our products. */}
+                                </p>
+                              </a>
+                                </NavigationMenuLink>
+                              </li>
+                                <ListItem href="/docs" title="Share Holder Information">
+                                  
+                                </ListItem>
+
+                                <ListItem href="/docs" title="Coperate Governance">
+                                  Governing bodies Of the Med-IN Pharmaceuticals
+                                </ListItem>
+
+                                <ListItem href="/docs" title="Finacial Reports">
+                                  Annual Finacianl Reports
+                                </ListItem>
+                        </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+
+                  <NavigationMenuItem>
+                  <NavigationMenuTrigger className="font-raleway font-bold">About Us</NavigationMenuTrigger>
+                  <NavigationMenuContent className="h-[450px]">
+                      <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[800px] lg:grid-cols-[.75fr_1fr]">
+                        <li className="row-span-3 h-[400px]">
+                          <NavigationMenuLink asChild >
+                            <a
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                              href="/"
+                            >
+                               <ReactPlayer 
+                                   url={vidUrl}
+                                   playing={false}
+                                   volume={0.5}
+                                   controls={true}
+                                   className="w-full max-w-7xl mt-8"
+                                   width="100%"
+                                   style={{
+                                       overflow: "auto",
+                                       borderRadius: "8px",
+                                       height:"100%"
+                                   }}/>
+                              <p className="text-sm leading-tight text-muted-foreground">
+                                Beautifully designed components built with Radix UI and
+                                Tailwind CSS.
+                              </p>
+                            </a>
+                              </NavigationMenuLink>
+                            </li>
+                            <ListItem href="/our-company" title="Our Comapany">
+                              Re-usable components built using Radix UI and Tailwind CSS.
+                            </ListItem>
+                           <ListItem href="/bod" title="Board Of Directors">
+                              Re-usable components built using Radix UI and Tailwind CSS.
+                            </ListItem>
+                            <ListItem href="/our-workplace" title="Our Work Place and Partners">
+                              Re-usable components built using Radix UI and Tailwind CSS.
+                            </ListItem>
+                      </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+
+
+                  <NavigationMenuItem>
+                        <Link to="/">
+                          <NavigationMenuLink>Contact</NavigationMenuLink>
+                        </Link>
+                  </NavigationMenuItem>
+
+              </NavigationMenuList>
+            </NavigationMenu>
         </div>
-  )
-  
+)
 function Header() {
 
   const [isOpen, setIsOpen] = React.useState(false);
