@@ -5,8 +5,8 @@ function Contact(){
             <div className="h-full flex flex-col gap-14 items-center justify-center w-full px-4">
                     <div className="flex flex-col justify-center">
                             <div className="flex xl:items-center  xl:flex-row flex-col gap-2">
-                                    <p className="text-green-500 font-normal font-raleway text-2xl">Connect</p>
-                                    <h1 className="text-3xl xl:text-4xl font-semibold font-worksans">Contact</h1>
+                                    <p className="text-green-500 font-normal font-raleway text-2xl">Connect,</p>
+                                    <h1 className="text-green-500 text-3xl xl:text-4xl font-semibold font-worksans">Contact</h1>
                             </div>
                         <p className="mt-4 text-3xl xl:text-5xl font-semibold font-raleway">Some questions concerning our company?</p>
                     </div>
