@@ -8,7 +8,7 @@ return (
           <div className=" flex flex-col w-full p-4 gap-2">
             <h3 className="break-all lg:text-lg font-semibold font-raleway">{name}</h3>
             <p className="break-all text-gray-500 font-raleway truncate">{description}</p>
-            <Link to={"/exploreproducts"} className="break-all cursor-pointer text-black mt-4 text-md truncate font-bold font-raleway flex items-center gap-4">View {name} details<IoArrowForward className="text-green-500 text-lg" /></Link>
+            <Link to={"/exploreproducts"} className="break-all cursor-pointer text-black mt-4 text-md truncate font-bold font-raleway flex items-center gap-4 text-zinc-600">View {name} details<IoArrowForward className="text-green-500 text-lg" /></Link>
           </div>
         </div>
   );
