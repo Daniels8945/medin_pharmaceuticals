@@ -43,7 +43,7 @@ const AddProducts = () => {
         <div className="relative bg-lightgreen-100">
             
             <div className="z-10 sticky top-0 pt-2 px-4 xl:px-12 shadow-md flex flex-col justify-center xl:flex-row xl:items-center xl:justify-between bg-white w-full h-[100px]">
-                <Link to={"/dashboard"} className='font-raleway text-[18px] font-normal flex items-center gap-2 cursor-pointer hover:underline '><IoArrowBack className='text-green-500'/> All Products</Link>
+                <Link to={"/dashboard"} className='font-raleway text-[20px] font-semibold flex items-center gap-2 cursor-pointer hover:underline text-zinc-500'><IoArrowBack className='text-green-500'/> All Products</Link>
                 <h2 className="mt-4 xl:text-3xl text-2xl font-semibold font-raleway text-green-500">Add products</h2>
             </div>
 
@@ -51,7 +51,7 @@ const AddProducts = () => {
 
                 <form onSubmit={handleSubmit} className='flex lg:flex-row flex-col-reverse gap-8'>
                     <div className='w-full md:w-sm '>
-                        <label className="flex text-1xl font-bold font-raleway gap-4 pt-4">Product Name:</label>
+                        <label className="flex text-1xl font-bold font-raleway gap-4 pt-4 text-zinc-500">Product Name:</label>
                         <input
                             id='name'
                             type='text'
@@ -61,7 +61,7 @@ const AddProducts = () => {
                             className="w-full h-[40px] px-3 py-4 mb-4 bg-gray-100 rounded-md font-raleway font-medium text-sm text-zinc-500 appearance-none focus:outline-none focus:ring"
                         />
 
-                        <label className="flex items-center text-1xl font-bold font-raleway gap-4 pt-4">Description:</label>
+                        <label className="flex items-center text-1xl font-bold font-raleway gap-4 pt-4 text-zinc-500">Description:</label>
                         <textarea
                         type='text'
                         id='description'
@@ -71,8 +71,8 @@ const AddProducts = () => {
                         className="w-full min-h-[150px] px-3 py-4 mb-4 bg-gray-100 rounded-md font-raleway font-medium text-sm text-zinc-500 appearance-none focus:outline-none focus:ring"
                         ></textarea>
                         
-                        <label className="flex items-center text-1xl font-bold font-raleway gap-4 pt-4">Created By:</label>
-                        <select className='w-full h-[40px] px-3 mb-4 bg-gray-100 rounded-md font-raleway font-medium text-sm text-zinc-900 appearance-none focus:outline-none focus:ring cursor-pointer'
+                        <label className="flex items-center text-1xl font-bold font-raleway gap-4 pt-4 text-zinc-500">Created By:</label>
+                        <select className='w-full h-[40px] px-3 mb-4 bg-gray-100 rounded-md font-raleway font-medium text-sm text-zinc-500 appearance-none focus:outline-none focus:ring cursor-pointer'
                         value={formData.creator}
                         id='creator'
                         onChange={handelChange}>
@@ -105,14 +105,14 @@ const AddProducts = () => {
                                 accept='image/*'
                                 // onChange={(event) => setSelectedImage(event.target.files[0])}
                                 onChange={handleImageChange}
-                                className='w-sm border h-[40px] py-2 px-2 bg-gray-100 rounded-md font-raleway font-bold text-sm text-zinc-900 appearance-none focus:outline-none'/>
+                                className='w-sm border h-[40px] py-2 px-2 bg-gray-100 rounded-md font-raleway font-bold text-sm text-zinc-500 appearance-none focus:outline-none'/>
 
 
                             <input onClick={() =>
                             setSelectedImage(null)} 
                             type='button'
                             value='Remove'
-                            className='flex items-center font-bold font-raleway gap-2 w-sm border h-[40px] py-2 px-2 bg-gray-100 rounded-md text-sm text-zinc-900 appearance-none focus:outline-none'/>
+                            className='flex items-center font-bold font-raleway gap-2 w-sm border h-[40px] py-2 px-2 bg-gray-100 rounded-md text-sm text-zinc-500 appearance-none focus:outline-none'/>
                         </div>    
                     </div>
 
