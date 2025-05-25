@@ -14,6 +14,7 @@ export default function Login(){
     const handelChange = (e) => {
         const {id , value} = e.target
         setFormData({...formData, [id] : value})
+        
     };
 
     const handelSubmit = async (event) => {
@@ -38,32 +39,33 @@ export default function Login(){
                        <div className="grid w-full max-w-sm items-center gap-1.5">
                             <label htmlFor="Email" className=" font-normal text-[14px] font-raleway">Email</label>
                             <input
+                                required
                                 name="email"
                                 type="text"
                                 id="email"
                                 value={formData.email}
                                 onChange={handelChange}
-                                 className="w-[320px] sm:w-[385px] h-[40px] rounded-[8px] border outline-none indent-4"/>
+                                className="w-[320px] sm:w-[385px] h-[40px] rounded-[8px] border outline-none indent-4"/>
                        </div>
 
                        <div className="grid w-full max-w-sm items-center gap-1.5">
                             <label htmlFor="Password" className="font-inter font-normal text-[14px] font-raleway">Password</label>
                             <input
+                                required
                                 name="password"
                                 type="password"
                                 id="password"
                                 value={formData.password}
                                 onChange={handelChange}
-                                 className="w-[320px] sm:w-[385px] h-[40px] rounded-[8px] border outline-none indent-4"/>
+                                className="w-[320px] sm:w-[385px] h-[40px] rounded-[8px] border outline-none indent-4"/>
                        </div>
                     </div>
 
-
-                    <div className="flex w-full" >
-                        <div className="mx-6.5 flex w-full gap-2">
-                        <button onClick={handelSubmit} type="submit"  className="bg-green-500 w-[280px]- w-full h-[39px] cursor-pointer text-white font-raleway font-bold text-[16px] rounded-[8px]">Sign In</button>
+                        <div className="flex w-full" >
+                            <div className="mx-6.5 flex w-full gap-2">
+                            <button onClick={handelSubmit} type="submit" className="bg-green-500 w-[280px]- w-full h-[39px] cursor-pointer text-white font-raleway font-bold text-[16px] rounded-[8px]">Sign In</button>
+                            </div>
                         </div>
-                    </div>
                 </div>
             </div>
             </form>
