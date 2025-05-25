@@ -21,7 +21,7 @@ function ExploreProducts(){
                 <h1 className="xl:text-3xl text-1xl font-semibold font-raleway text-green-500">All available products</h1>
             </div>  
             
-            <div className="xl:grid lg:grid-cols-3 grid grid-cols-2  py-24 xl:px-16 px-4 gap-5 justify-center">
+            <div className="xl:grid lg:grid-cols-3 grid grid-cols-2 py-24 xl:px-16 px-4 gap-5 justify-center">
                 { products&& products.map((product, id) => (
                 <ExploreProductsUI key={id}
                     imageId={product.imageId}

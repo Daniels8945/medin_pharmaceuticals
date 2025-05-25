@@ -31,7 +31,6 @@ const AddProducts = () => {
     };
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         const imageId = await uploadImage(image)
         const result = await addToDB(formData, imageId)
         console.log("Item saved:", result);

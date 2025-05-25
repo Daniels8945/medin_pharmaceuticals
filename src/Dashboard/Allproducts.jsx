@@ -5,12 +5,6 @@ import { getItems } from "@/appwrite";
 import * as React from "react";
 
 
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card"
-
 function Products(){
     const [products, setProducts] = React.useState([]);
     React.useEffect(() => {
@@ -24,7 +18,7 @@ function Products(){
     return(
         <div className="flex flex-col gap-8">
            <div  className="gap-2 z-10 sticky top-0 px-4 xl:px-12 shadow-md flex flex-col xl:flex-row xl:items-center-safe justify-center xl:justify-between bg-white w-full h-[100px]">
-                <h1 className="text-4xl font-semibold font-raleway text-green-500">All available products</h1>
+                <h1 className="xl:text-3xl text-2xl font-semibold font-raleway text-green-500">All available products</h1>
                 <Link to="/addproducts" className="text-zinc-500 flex items-center text-[20px] font-semibold font-raleway gap-4 pt-4 cursor-pointer hover:underline"> Add Products <FaExternalLinkAlt className="text-green-500" /> </Link>
            </div>
 
