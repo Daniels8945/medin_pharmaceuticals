@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 export default function Login(){
+    const [isPending, setIsPending] =  React.useState(false)
     const { login }  = useAuth();
     const navigate = useNavigate()
     const [formData, setFormData] = React.useState({
@@ -19,9 +20,13 @@ export default function Login(){
         event.preventDefault();
         try {
             await login(formData.email, formData.password);
+            if (login.status == 200) {
+                setIsPending(true);
+            }
+            alert("Login successful")
             navigate("/dashboard");
         } catch (error) {
-             console.error("Login failed:", error);
+            alert("Login failed, Email or password incorrect", error);
         }
     }
     
@@ -38,7 +43,7 @@ export default function Login(){
                        <div className="grid w-full max-w-sm items-center gap-1.5">
                             <label htmlFor="Email" className=" font-normal text-[14px] font-raleway">Email</label>
                             <input
-                                // name="email"
+                            
                                 type="text"
                                 id="email"
                                 required
@@ -50,7 +55,6 @@ export default function Login(){
                        <div className="grid w-full max-w-sm items-center gap-1.5">
                             <label htmlFor="Password" className="font-inter font-normal text-[14px] font-raleway">Password</label>
                             <input
-                                // name="password"
                                 type="password"
                                 id="password"
                                 required
@@ -62,7 +66,7 @@ export default function Login(){
 
                         <div className="flex w-full" >
                             <div className="mx-6.5 flex w-full gap-2">
-                            <button onClick={handelSubmit} type="submit" className="bg-green-500 w-[280px]- w-full h-[39px] cursor-pointer text-white font-raleway font-bold text-[16px] rounded-[8px]">Sign In</button>
+                             { !isPending && <button  type="submit" className="bg-green-500 hover:bg-green-600 w-[280px]- w-full h-[39px] cursor-pointer text-white font-raleway font-bold text-[16px] rounded-[8px]">Sign In</button>}
                             </div>
                         </div>
                 </div>

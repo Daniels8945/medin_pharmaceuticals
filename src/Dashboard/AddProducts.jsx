@@ -80,7 +80,7 @@ const AddProducts = () => {
                         </select>
 
                         { !isPending && <button className='w-full px-4 py-2 font-semibold text-white font-raleway bg-green-500 rounded-lg hover:bg-green-700 focus:outline-none focus:shadow-outlin'>Add Product</button>}
-                        { isPending && <button disabledo>Add Prodcut...</button>}
+                        { isPending && <button disabled>Add Prodcut...</button>}
                     </div>
 
 
