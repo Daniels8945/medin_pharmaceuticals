@@ -58,7 +58,6 @@ export const getItems = async () => {
         const imageUrl = storage.getFileView(BUCKET_ID, doc.imageId);
         return { ...doc, imageUrl };
     });
-    // console.log(allItems);
     return allItems;
 }
 
@@ -84,7 +83,12 @@ export const login = async (email, password) => {
   }
 };
 
-export const session  = async () => {
-    await account.getSession(SESSION_ID);
-    console.log(session );
+export const logout =  async () => {
+    try {
+        const logout = await account.deleteSession('current');
+        return logout
+    } catch (error) {
+        console.error(error)
+        throw error; 
+    }
 }

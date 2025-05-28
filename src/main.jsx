@@ -2,7 +2,7 @@ import React from 'react'
 import './index.css'
 import App from './App.jsx'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, useLocation } from 'react-router-dom'
 import NotFoundPage from './components/Notfound';
 import AddProducts from './Dashboard/AddProducts'; //dashboard
 import Mission from './components/mission';
