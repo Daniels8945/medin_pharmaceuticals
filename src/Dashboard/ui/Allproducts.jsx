@@ -16,9 +16,9 @@ export default function ProductItems({ id, name, description, image, imageId }){
     }
 
     return (
-            <div className="flex flex-row justify-center">
-                <div className="border-b rounded-2xl px-2 gap-6 flex items-center justify-around ">
-                    <div className="relative flex flex-row items-center w-sm p-4 gap-2">
+            <div className="flex flex-row justify-center w-fit px-4">
+                <div className="border-b rounded-2xl gap-6 flex items-center justify-around px-4">
+                    <div className="relative flex flex-row items-center w-sm py-2 gap-2">
                         <img src={image} alt="product image" className="rounded-full h-[60px] w-[60px] object-cover hover:scale-[1.015]"/>
                         <h3 className="break-all text-[14px] w-sm font-semibold font-raleway text-zinc-600">{name}</h3>
                     </div>

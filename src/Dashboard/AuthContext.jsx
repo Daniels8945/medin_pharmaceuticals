@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
-     const login = async (email, password) => {
+    const login = async (email, password) => {
       const loggedIn = await account.createEmailPasswordSession(email, password);
       setUser(loggedIn);
     }

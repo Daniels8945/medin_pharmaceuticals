@@ -39,7 +39,7 @@ function Products() {
                     <button className=" bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition duration-300"></button>
                   </CarouselPrevious>
                   <CarouselContent className="-ml-4">
-                    {products &&  products.map((product, id) => (
+                    {products && products.slice(0, 3).map((product, id) => (
                       <CarouselItem className="pl-4 md:basis-1/3 sm:basis-1/3 xl:basis-1/3" key={id} >
                         <ProductCard
                           imageId={product.imageId}
