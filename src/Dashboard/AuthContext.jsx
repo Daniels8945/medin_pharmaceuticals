@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
       setUser(null)
     };
 
-
   const fetchUser = async () => {
     try {
       const user = await account.get();

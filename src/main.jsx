@@ -14,9 +14,11 @@ import Login from './Dashboard/Login'; // Login
 import Products from "./Dashboard/Allproducts"
 import PrivateRoute from './Dashboard/Main';
 import { AuthProvider } from "./Dashboard/AuthContext"
+import { Toaster } from "@/components/ui/sonner"
 
 
 const router = createBrowserRouter([
+   <Toaster />,
   { path:"*", element: <NotFoundPage /> },
   { path:"/", element: <App /> },
   { path:"/login", element: <Login /> }, 
