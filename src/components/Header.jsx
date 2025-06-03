@@ -5,7 +5,8 @@ import { CiMenuFries } from "react-icons/ci";
 import { RiCloseLargeLine } from "react-icons/ri";
 import React from "react";
 import { Link } from "react-router-dom";
-import ReactPlayer from "react-player"
+import ReactPlayer from "react-player";
+import iv  from "../assets/IVFluids-urgent-care.jpg";
 
 import {
   NavigationMenu,
@@ -90,6 +91,7 @@ const menu = (
                               >
                               
                                 <div className="mb-2 mt-4 text-lg font-medium">
+                                  <img src={ iv } alt="" className=""/>
                                   Our Products
                                 </div>
                                 <p className="text-sm leading-tight text-muted-foreground">
@@ -230,12 +232,12 @@ function Header() {
                 { isOpen ? <RiCloseLargeLine className="w-[24px] h-[24px] text-green-500"/> : <CiMenuFries className="w-[24px] h-[24px] text-green-500"/>}
                 </button>
             </div>
-          <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/features">Home</Link>
-          <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/pricing">Products</Link>
+          <Link onClick={toggleMenu} className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/">Home</Link>
+          <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/exploreproducts">Products</Link>
           <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/faqs">Investors</Link>
-          <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/testimonials">About Us</Link>
+          <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/ourcompany">About Us</Link>
           <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/testimonials">Contact</Link>
-          <Link className="bg-green-500 text-white font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background- hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/testimonials">Become A Distributor</Link>
+          <Link className="bg-green-500 text-white font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background- hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/">Become A Distributor</Link>
       </dialog> 
     </>
   )
