@@ -1,7 +1,7 @@
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom"
 import ProductItems from "./ui/Allproducts";
-import { getItems } from "@/appwrite";
+import { getItems, deleteItems } from "@/appwrite";
 import * as React from "react";
 
 
@@ -14,6 +14,10 @@ function Products(){
         };
         loadItems();
     }, []);
+
+    const handleDelete = async (id, imageId) => {
+        await deleteItems(id, imageId);
+    };
 
     return(
         <div className="flex flex-col gap-8">
@@ -38,7 +42,9 @@ function Products(){
                                 imageId={product.imageId}
                                 image={product.imageUrl}
                                 name={product.name}
-                                description={product.description}/>
+                                description={product.description}
+                                onDelete={handleDelete}
+                                />
                             ))}            
                     </div>
             </div>

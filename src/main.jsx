@@ -33,8 +33,8 @@ const router = createBrowserRouter([
   { path:"/mission&vission", element: <Mission />},
   { path:"/exploreproducts", element: <ExploreProducts />},
   { path:"/bod", element: <BoardOfDirectors />},
-  { path:"/our-company", element: <OurCompany />},
-  { path:"/our-workplace", element: <OurWorkplace />},
+  { path:"/ourcompany", element: <OurCompany />},
+  { path:"/ourworkplace", element: <OurWorkplace />},
 ])
 createRoot(document.getElementById('root')).render(
   <AuthProvider>

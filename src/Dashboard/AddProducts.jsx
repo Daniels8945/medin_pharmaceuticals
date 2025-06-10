@@ -14,7 +14,7 @@ const AddProducts = () => {
     const [isPending, setIsPending] =  React.useState(false)
     const [image, setSelectedImage] = React.useState(null);
     const [preview, setPreview] = React.useState(null);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
