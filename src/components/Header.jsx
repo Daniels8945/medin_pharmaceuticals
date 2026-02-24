@@ -57,18 +57,8 @@ ListItem.displayName = "ListItem";
 
 const vidUrl = "https://youtu.be/JNIeYp4z41E?si=VHcbssEJfxa6jQQw";
 
-function scrollToSection(id) {
-  const container = document.querySelector(".snap-container");
-  const target = document.getElementById(id);
-  if (container && target) {
-    container.scrollTo({ top: target.offsetTop, behavior: "smooth" });
-  }
-}
-
 /* ─── Mobile Drawer ─────────────────────────────────────────────────────────*/
-
 function MobileDrawer({ isOpen, onClose, onOpenDistributor }) {
-  // Lock body scroll while drawer is open
   React.useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -87,7 +77,7 @@ function MobileDrawer({ isOpen, onClose, onOpenDistributor }) {
         }`}
       />
 
-      {/* Panel — slides in from the right */}
+      {/* Panel */}
       <div
         className={`fixed top-0 right-0 z-[999] h-full w-[85vw] max-w-[340px] bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           isOpen ? "translate-x-0" : "translate-x-full"
@@ -123,12 +113,10 @@ function MobileDrawer({ isOpen, onClose, onOpenDistributor }) {
           <Link onClick={onClose} className={linkClass} to="/careers">
             <span className="text-green-500"><FaShoppingBag /></span> Careers
           </Link>
-          <button
-            onClick={() => { scrollToSection("contact-section"); onClose(); }}
-            className={linkClass}
-          >
+          {/* Contact → dedicated page */}
+          <Link onClick={onClose} className={linkClass} to="/contact">
             <span className="text-green-500"><FaPhoneAlt /></span> Contact
-          </button>
+          </Link>
         </nav>
 
         {/* CTA at bottom */}
@@ -247,13 +235,11 @@ function Header() {
             </NavigationMenuLink>
           </NavigationMenuItem>
 
+          {/* Contact → dedicated page */}
           <NavigationMenuItem>
-            <button
-              onClick={() => scrollToSection("contact-section")}
-              className={navLinkClass}
-            >
-              Contact
-            </button>
+            <NavigationMenuLink asChild>
+              <Link to="/contact" className={navLinkClass}>Contact</Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
 
         </NavigationMenuList>
@@ -270,10 +256,8 @@ function Header() {
             <img src={logo} alt="Logo" className="h-8" />
           </Link>
 
-          {/* Desktop nav */}
           <div className="hidden lg:block">{menu}</div>
 
-          {/* Desktop CTA */}
           <div className="hidden lg:block">
             <button
               onClick={() => setIsDistributorOpen(true)}
@@ -283,7 +267,6 @@ function Header() {
             </button>
           </div>
 
-          {/* Mobile hamburger */}
           <button
             onClick={() => setIsOpen((p) => !p)}
             className="lg:hidden flex items-center justify-center w-10 h-10 border border-green-500 rounded-lg transition-colors hover:bg-green-50"
@@ -296,7 +279,6 @@ function Header() {
         </div>
       </header>
 
-      {/* Mobile drawer — portalled outside header so fixed positioning works correctly */}
       <MobileDrawer
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
