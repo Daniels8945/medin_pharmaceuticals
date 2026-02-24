@@ -19,6 +19,8 @@ import { AuthProvider } from "./Dashboard/AuthContext"
 import { Toaster } from "@/components/ui/sonner"
 
 
+
+
 const router = createBrowserRouter([
    <Toaster />,
   { path:"*", element: <NotFoundPage /> },
@@ -36,9 +38,11 @@ const router = createBrowserRouter([
   { path:"/exploreproducts", element: <ExploreProducts />},
   { path:"/bod", element: <BoardOfDirectors />},
   { path:"/ourcompany", element: <OurCompany />},
+  { path:"/our-company", element: <OurCompany />},
   { path:"/ourworkplace", element: <OurWorkplace />},
+  { path:"/our-workplace", element: <OurWorkplace />},
   { path:"/careers", element: <Careers />},
-  { path:"/contact-us", element: <ContactPage />},
+  { path:"/contact", element: <ContactPage />},
 ])
 createRoot(document.getElementById('root')).render(
   <AuthProvider>

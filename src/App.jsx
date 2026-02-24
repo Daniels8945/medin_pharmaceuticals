@@ -4,38 +4,39 @@ import Products from "./components/ProductsPage";
 import AboutUs from "./components/AboutUs"; 
 import Footer from "./components/Footer"; 
 import Contact from "./components/Contact";
-
-
-// import { useLocation } from 'react-router-dom';
-// import { useEffect } from "react";
-// import { logout } from "./appwrite";
+import ScrollProgress from "./components/ScrollProgress";
+import PageTransition from "./components/PageTransition";
+import { useScrollReveal } from "./lib/useScrollReveal";
 
 function App() {
-  // const location = useLocation();
-  // useEffect(() => {
-  // const publicPaths = ["/", "/login"];
-  // const isLeavingDashboard = publicPaths.includes(location.pathname);
-
-  // const handleLogout = async () => {
-  //   if (isLeavingDashboard) {
-  //     try {
-  //       await logout()
-  //     } catch (error) {
-  //       console.error("Logout failed", error);
-  //       }
-  //     }
-  //   }
-  //   handleLogout();
-  // }, [location]);
+  useScrollReveal();
 
   return (
     <div>
-          <Header />
-          <Hero />
-          <Products />
-          <AboutUs />
-          <Contact />
-          <Footer />
+      <ScrollProgress />
+      <Header />
+      {/* 
+        snap-container must NOT have transform/opacity on it directly —
+        transforms break scroll-snap in all browsers.
+        PageTransition wraps the inner content only.
+      */}
+      <main className="snap-container">
+        <PageTransition>
+          <section className="snap-section" id="hero">
+            <Hero />
+          </section>
+          <section className="snap-section" id="products">
+            <Products />
+          </section>
+          <section className="snap-section" id="about">
+            <AboutUs />
+          </section>
+          <section className="snap-section" id="contact-section">
+            <Contact />
+            <Footer />
+          </section>
+        </PageTransition>
+      </main>
     </div>
   );
 }

@@ -172,3 +172,126 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+/* =====================================================
+   PREMIUM SCROLLBAR
+   ===================================================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #16a34a 0%, #15803d 100%);
+}
+
+/* =====================================================
+   SNAP SCROLL
+   ===================================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+.snap-container {
+  height: calc(100vh - 65px);
+  margin-top: 65px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 768px) {
+  .snap-container {
+    height: calc(100vh - 80px);
+    margin-top: 80px;
+  }
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: calc(100vh - 65px);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .snap-section {
+    min-height: calc(100vh - 80px);
+  }
+}
+
+/* Allow natural height for the last section (contact + footer) */
+.snap-section:last-child {
+  scroll-snap-stop: normal;
+  min-height: auto;
+}
+
+/* =====================================================
+   SCROLL REVEAL ANIMATIONS
+   ===================================================== */
+
+/* Default — hidden state */
+[data-reveal] {
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Variants */
+[data-reveal="fade-up"] {
+  transform: translateY(48px);
+}
+[data-reveal="fade-down"] {
+  transform: translateY(-48px);
+}
+[data-reveal="fade-left"] {
+  transform: translateX(-48px);
+}
+[data-reveal="fade-right"] {
+  transform: translateX(48px);
+}
+[data-reveal="scale-up"] {
+  transform: scale(0.88);
+}
+[data-reveal="zoom"] {
+  transform: scale(0.92) translateY(24px);
+}
+
+/* Stagger children delays */
+[data-reveal-delay="100"] { transition-delay: 0.1s; }
+[data-reveal-delay="200"] { transition-delay: 0.2s; }
+[data-reveal-delay="300"] { transition-delay: 0.3s; }
+[data-reveal-delay="400"] { transition-delay: 0.4s; }
+[data-reveal-delay="500"] { transition-delay: 0.5s; }
+
+/* Revealed state */
+[data-reveal].revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* =====================================================
+   MODAL ANIMATIONS
+   ===================================================== */
+.modal-enter {
+  animation: modal-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* end of scroll styles */
