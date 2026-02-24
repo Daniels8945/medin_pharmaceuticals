@@ -33,9 +33,9 @@ function Footer() {
                   <div className="flex flex-col text-white gap-5">
                     <h1 className="text-2xl font-semibold font-worksans">Company</h1>
                         <div className="flex flex-col text-md font-raleway font-semibold text-zinc-300 gap-5">
-                            <a href="" className="hover:text-white">Product</a>
-                            <a href="" className="hover:text-white">About Us</a>
-                            <a href="" className="hover:text-white">Services</a> 
+                            <Link to="/exploreproducts" className="hover:text-white">Products</Link>
+                            <Link to="/ourcompany" className="hover:text-white">About Us</Link>
+                            <Link to="/careers" className="hover:text-white">Careers</Link> 
                             <a href="" className="hover:text-white">Privacy Policy</a>
                             <a href="" className="hover:text-white">Terms of Service</a>
                         </div>
