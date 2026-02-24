@@ -1,12 +1,20 @@
 import { Link } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
+import Header from "./Header";
+import Footer from "./Footer";
+
 function Mission() {
     return(
-    <div className="h-screen w-full"> 
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-1 pt-[80px]">
 
-            <div className="gap-2 z-10 sticky top-0 px-4 xl:px-12 shadow-md flex flex-col xl:flex-row xl:items-center-safe justify-center xl:justify-between bg-white w-full h-[100px]">
-                       <Link to={"/"}><IoArrowBack className='text-green-500 text-4xl'/></Link>
-                       <h1 className="xl:text-4xl text-2xl font-semibold font-raleway text-green-500">United by Purpose</h1>
+            <div className="bg-green-700 py-16 px-4 xl:px-12 text-white">
+                <Link to={"/"} className="inline-flex items-center gap-2 text-green-200 hover:text-white mb-6 font-raleway text-sm">
+                  <IoArrowBack /> Back to Home
+                </Link>
+                <p className="text-green-300 font-raleway font-semibold text-sm uppercase tracking-widest mb-2">About Us</p>
+                <h1 className="text-4xl xl:text-5xl font-bold font-raleway mb-4">United by Purpose</h1>
             </div>
 
         <div className="flex justify-center items-center xl:p-12 p-4 h-fit w-full">
@@ -34,6 +42,8 @@ function Mission() {
             
             </div>
         </div>
+      </main>
+      <Footer />
     </div>
 )}
 export default Mission;

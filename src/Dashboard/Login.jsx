@@ -64,11 +64,11 @@ export default function Login(){
                        </div>
                     </div>
 
-                        <div className="flex w-full" >
-                            <div className="mx-6.5 flex w-full gap-2">
-                             { !isPending && <button  type="submit" className="bg-green-500 hover:bg-green-600 w-[280px]- w-full h-[39px] cursor-pointer text-white font-raleway font-bold text-[16px] rounded-[8px]">Sign In</button>}
-                            </div>
+                    <div className="flex w-full" >
+                        <div className="mx-6.5 flex w-full gap-2">
+                            { !isPending && <button  type="submit" className="bg-green-500 hover:bg-green-600 w-[280px]- w-full h-[39px] cursor-pointer text-white font-raleway font-bold text-[16px] rounded-[8px]">Sign In</button>}
                         </div>
+                    </div>
                 </div>
             </div>
             </form>

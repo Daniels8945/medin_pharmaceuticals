@@ -176,17 +176,14 @@ const menu = (
                             </a>
                               </NavigationMenuLink>
                             </li>
-                            <ListItem href="/our-company" title="Our Comapany">
-                                We create healthy innovations to make healthcare
-                                affordable and accessible to the Nigerian health sector.
+                            <ListItem href="/ourcompany" title="Our Company">
+                                Learn about our history, mission, and vision for Nigeria's health sector.
                             </ListItem>
                            <ListItem href="/bod" title="Board Of Directors">
-                                We create healthy innovations to make healthcare
-                                affordable and accessible to the Nigerian health sector.
+                                Meet the leadership team guiding MED-IN Pharmaceuticals.
                             </ListItem>
-                            <ListItem href="/our-workplace" title="Our Work Place and Partners">
-                                We create healthy innovations to make healthcare
-                                affordable and accessible to the Nigerian health sector.
+                            <ListItem href="/ourworkplace" title="Our Workplace & Partners">
+                                Explore our facilities, production plant, and partner network.
                             </ListItem>
                       </ul>
                   </NavigationMenuContent>
@@ -195,8 +192,14 @@ const menu = (
 
 
                   <NavigationMenuItem>
-                        <Link to="/">
+                        <Link to="/contact-us">
                           <NavigationMenuLink>Contact</NavigationMenuLink>
+                        </Link>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                        <Link to="/careers">
+                          <NavigationMenuLink>Careers</NavigationMenuLink>
                         </Link>
                   </NavigationMenuItem>
 
@@ -236,7 +239,8 @@ function Header() {
           <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/exploreproducts">Products</Link>
           <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/faqs">Investors</Link>
           <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/ourcompany">About Us</Link>
-          <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/testimonials">Contact</Link>
+          <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/careers">Careers</Link>
+          <Link className="font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/contact-us">Contact</Link>
           <Link className="bg-green-500 text-white font-raleway font-bold inline-flex items-center whitespace-nowrap text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-input bg-background- hover:bg-accent hover:text-accent-foreground h-11 px-8 w-full rounded-xl justify-center" to="/">Become A Distributor</Link>
       </dialog> 
     </>
