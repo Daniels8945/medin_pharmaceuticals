@@ -2,7 +2,7 @@
 
 import logo from "../assets/logo.png";
 import { CiMenuFries } from "react-icons/ci";
-import { RiCloseLargeLine } from "react-icons/ri";
+import { RiCloseLargeLine, RiMedicineBottleFill } from "react-icons/ri";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Link, useLocation } from "react-router-dom";
@@ -10,13 +10,16 @@ import ReactPlayer from "react-player";
 import iv from "../assets/IVFluids-urgent-care.jpg";
 import DistributorModal from "./DistributorModal";
 
-/*Icons*/
+/* ── Nav Icons ────────────────────────────────────────────────────────────── */
 import { FaHouse } from "react-icons/fa6";
+import { FaShoppingBag, FaPhoneAlt, FaBuilding, FaUserTie, FaHandshake, FaChartPie, FaFileAlt } from "react-icons/fa";
 import { GiMedicinePills } from "react-icons/gi";
 import { TfiStatsUp } from "react-icons/tfi";
 import { FcAbout } from "react-icons/fc";
-import { FaShoppingBag } from "react-icons/fa";
-import { FaPhoneAlt } from "react-icons/fa";
+import { IoChevronDown } from "react-icons/io5";
+import { MdOutlineInventory2 } from "react-icons/md";
+import { BsPeopleFill } from "react-icons/bs";
+import { HiOutlineOfficeBuilding } from "react-icons/hi";
 
 import {
   NavigationMenu,
@@ -57,7 +60,63 @@ ListItem.displayName = "ListItem";
 
 const vidUrl = "https://youtu.be/JNIeYp4z41E?si=VHcbssEJfxa6jQQw";
 
-/* ─── Mobile Drawer ─────────────────────────────────────────────────────────*/
+/* ── Mobile Accordion ─────────────────────────────────────────────────────── */
+function MobileAccordion({ icon, label, children }) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <div className="w-full">
+      {/* Trigger */}
+      <button
+        onClick={() => setOpen((p) => !p)}
+        className="flex items-center justify-between w-full h-12 px-6 rounded-2xl border border-zinc-200 bg-white hover:bg-zinc-50 active:bg-zinc-100 transition-colors font-raleway font-semibold text-[15px] text-zinc-800"
+      >
+        <span className="flex items-center gap-3 min-w-0">
+          <span className="text-green-500 flex-shrink-0">{icon}</span>
+          <span className="truncate">{label}</span>
+        </span>
+        <IoChevronDown
+          className={`text-green-500 flex-shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {/* Smooth height animation via CSS grid trick — no JS measurement needed */}
+      <div
+        className="grid transition-all duration-300 ease-in-out"
+        style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">
+          <div className="mt-1 ml-4 flex flex-col border-l-2 border-green-400 pl-3 pb-1">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Sub-link inside an accordion */
+function SubLink({ icon, label, to, href, onClick }) {
+  const cls =
+    "flex items-center gap-3 font-raleway font-medium text-[14px] text-zinc-600 hover:text-green-600 hover:bg-green-50 active:bg-green-100 px-4 py-2.5 rounded-xl transition-colors w-full text-left";
+
+  if (to) {
+    return (
+      <Link to={to} onClick={onClick} className={cls}>
+        <span className="text-green-400 text-base flex-shrink-0">{icon}</span>
+        {label}
+      </Link>
+    );
+  }
+  return (
+    <a href={href || "#"} onClick={onClick} className={cls}>
+      <span className="text-green-400 text-base flex-shrink-0">{icon}</span>
+      {label}
+    </a>
+  );
+}
+
+/* ── Mobile Drawer ────────────────────────────────────────────────────────── */
 function MobileDrawer({ isOpen, onClose, onOpenDistributor }) {
   React.useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -65,7 +124,7 @@ function MobileDrawer({ isOpen, onClose, onOpenDistributor }) {
   }, [isOpen]);
 
   const linkClass =
-    "font-raleway font-semibold inline-flex items-center text-[15px] transition-colors border border-zinc-200 bg-white hover:bg-zinc-50 active:bg-zinc-100 h-12 px-6 w-full rounded-2xl justify-start gap-3 text-zinc-800";
+    "flex items-center font-raleway font-semibold text-[15px] transition-colors border border-zinc-200 bg-white hover:bg-zinc-50 active:bg-zinc-100 h-12 px-6 w-full rounded-2xl gap-3 text-zinc-800";
 
   const drawer = (
     <>
@@ -97,26 +156,86 @@ function MobileDrawer({ isOpen, onClose, onOpenDistributor }) {
         </div>
 
         {/* Nav links */}
-        <nav className="flex-1 flex flex-col gap-2.5 px-5 py-5 overflow-y-auto">
+        <nav className="flex-1 min-h-0 flex flex-col gap-2.5 px-5 py-5 overflow-y-auto">
+
+          {/* Home — flat */}
           <Link onClick={onClose} className={linkClass} to="/">
             <span className="text-green-500"><FaHouse /></span> Home
           </Link>
-          <Link onClick={onClose} className={linkClass} to="/exploreproducts">
-            <span className="text-green-500"><GiMedicinePills /></span> Products
-          </Link>
-          <Link onClick={onClose} className={linkClass} to="/faqs">
-            <span className="text-green-500"><TfiStatsUp /></span> Investors
-          </Link>
-          <Link onClick={onClose} className={linkClass} to="/ourcompany">
-            <span className="text-green-500"><FcAbout /></span> About Us
-          </Link>
+
+          {/* Products — accordion */}
+          <MobileAccordion icon={<GiMedicinePills />} label="Products">
+            <SubLink
+              icon={<MdOutlineInventory2 />}
+              label="Browse All Products"
+              to="/exploreproducts"
+              onClick={onClose}
+            />
+            <SubLink
+              icon={<RiMedicineBottleFill />}
+              label="IV Fluids"
+              to="/exploreproducts"
+              onClick={onClose}
+            />
+            <SubLink
+              icon={<GiMedicinePills />}
+              label="New Product"
+              to="/exploreproducts"
+              onClick={onClose}
+            />
+          </MobileAccordion>
+
+          {/* Investors — accordion */}
+          <MobileAccordion icon={<TfiStatsUp />} label="Investors">
+            <SubLink
+              icon={<FaChartPie />}
+              label="Shareholder Information"
+              href="/docs"
+            />
+            <SubLink
+              icon={<HiOutlineOfficeBuilding />}
+              label="Corporate Governance"
+              href="/docs"
+            />
+            <SubLink
+              icon={<FaFileAlt />}
+              label="Financial Reports"
+              href="/docs"
+            />
+          </MobileAccordion>
+
+          {/* About Us — accordion */}
+          <MobileAccordion icon={<FcAbout />} label="About Us">
+            <SubLink
+              icon={<FaBuilding />}
+              label="Our Company"
+              to="/our-company"
+              onClick={onClose}
+            />
+            <SubLink
+              icon={<BsPeopleFill />}
+              label="Board of Directors"
+              to="/bod"
+              onClick={onClose}
+            />
+            <SubLink
+              icon={<FaHandshake />}
+              label="Our Workplace & Partners"
+              to="/our-workplace"
+              onClick={onClose}
+            />
+          </MobileAccordion>
+
+          {/* Careers — flat */}
           <Link onClick={onClose} className={linkClass} to="/careers">
             <span className="text-green-500"><FaShoppingBag /></span> Careers
           </Link>
-          {/* Contact → dedicated page */}
+
+          {/* Contact — flat */}
           <Link onClick={onClose} className={linkClass} to="/contact">
             <span className="text-green-500"><FaPhoneAlt /></span> Contact
           </Link>
+
         </nav>
 
         {/* CTA at bottom */}
@@ -138,7 +257,7 @@ function MobileDrawer({ isOpen, onClose, onOpenDistributor }) {
   return ReactDOM.createPortal(drawer, document.body);
 }
 
-/* ─── Desktop Nav ─────────────────────────────────────────────────────────── */
+/* ── Desktop Nav ──────────────────────────────────────────────────────────── */
 function Header() {
   const [isDistributorOpen, setIsDistributorOpen] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -235,7 +354,6 @@ function Header() {
             </NavigationMenuLink>
           </NavigationMenuItem>
 
-          {/* Contact → dedicated page */}
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
               <Link to="/contact" className={navLinkClass}>Contact</Link>
