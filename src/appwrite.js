@@ -72,15 +72,15 @@ export const deleteItems = async (documentId, imageId) => {
 }
 
 export const login = async (email, password) => {
-  try {
-    const session = await account.createSession(
-        email, 
-        password
-    );
-    return session;
-  } catch (error) {
-    throw error;
-  }
+    try {
+        const session = await account.createSession(
+            email, 
+            password
+        );
+        return session;
+    } catch (error) {
+        throw error;
+    }
 };
 
 export const logout =  async () => {
