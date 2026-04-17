@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  RewriteRule ^index\.html$ - [L]
+
+  # Pass PHP API and uploaded files through directly — do NOT redirect to index.html
+  RewriteRule ^api/     - [L]
+  RewriteRule ^uploads/ - [L]
+
+  # All other non-file, non-directory requests go to the React app
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

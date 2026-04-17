@@ -9,6 +9,7 @@ import { Link, useLocation } from "react-router-dom";
 import ReactPlayer from "react-player";
 import iv from "../assets/IVFluids-urgent-care.jpg";
 import DistributorModal from "./DistributorModal";
+import { useSiteContent } from "@/context/SiteContentContext";
 
 /* ── Nav Icons ────────────────────────────────────────────────────────────── */
 import { FaHouse } from "react-icons/fa6";
@@ -30,11 +31,6 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 
-const items = [
-  { name: "New Product", description: "iV fluid" },
-  { name: "New Product", description: "iV fluid" },
-  { name: "New Product", description: "iV fluid" },
-];
 
 const ListItem = React.forwardRef(({ className, title, children, href, ...props }, ref) => (
   <li>
@@ -117,7 +113,7 @@ function SubLink({ icon, label, to, href, onClick }) {
 }
 
 /* ── Mobile Drawer ────────────────────────────────────────────────────────── */
-function MobileDrawer({ isOpen, onClose, onOpenDistributor }) {
+function MobileDrawer({ isOpen, onClose, onOpenDistributor, ctaText }) {
   React.useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -244,7 +240,7 @@ function MobileDrawer({ isOpen, onClose, onOpenDistributor }) {
             onClick={() => { onOpenDistributor(); onClose(); }}
             className="w-full bg-green-500 hover:bg-green-600 active:scale-[0.98] transition-all text-white font-raleway font-bold h-12 rounded-2xl text-[15px] shadow-md shadow-green-200"
           >
-            Become A Distributor
+            {ctaText || "Become A Distributor"}
           </button>
           <p className="text-center text-xs text-zinc-400 font-raleway mt-3">
             Medin Pharmaceuticals © {new Date().getFullYear()}
@@ -262,6 +258,11 @@ function Header() {
   const [isDistributorOpen, setIsDistributorOpen] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const location = useLocation();
+  const { headerContent, navProductsContent } = useSiteContent();
+  const ctaText = headerContent?.ctaText || "Become A Distributor";
+  const items = Array.isArray(navProductsContent) && navProductsContent.length > 0
+    ? navProductsContent
+    : [{ name: "New Product", description: "iV fluid" }];
 
   React.useEffect(() => { setIsOpen(false); }, [location.pathname]);
 
@@ -381,7 +382,7 @@ function Header() {
               onClick={() => setIsDistributorOpen(true)}
               className="bg-green-500 hover:bg-green-600 active:scale-[0.97] transition-all px-6 h-[46px] rounded-full flex items-center ml-4 text-white font-raleway font-semibold shadow-md shadow-green-200 whitespace-nowrap"
             >
-              Become A Distributor
+              {ctaText}
             </button>
           </div>
 
@@ -401,6 +402,7 @@ function Header() {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onOpenDistributor={() => setIsDistributorOpen(true)}
+        ctaText={ctaText}
       />
 
       <DistributorModal

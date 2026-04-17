@@ -3,17 +3,19 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
-
-const objectives = [
-  "Contribute to the healthcare needs of the country.",
-  "Production of large and small volume parenteral intravenous fluids in the nation.",
-  "Ensure a robust customer/supplier relationship via quality products and on-time delivery.",
-  "Ensure that Med-In parenteral fluids are readily available in major healthcare centres across the country.",
-  "Engage appropriate partnerships with health institutions applying the Med-In framework.",
-];
+import { useSiteContent, DEFAULT_COMPANY } from "@/context/SiteContentContext";
 
 function OurCompany() {
   const [openTab, setOpenTab] = useState("objectives");
+  const { companyContent } = useSiteContent();
+
+  const heroTitle    = companyContent?.heroTitle    ?? DEFAULT_COMPANY.heroTitle;
+  const heroSubtitle = companyContent?.heroSubtitle ?? DEFAULT_COMPANY.heroSubtitle;
+  const overview1    = companyContent?.overview1    ?? DEFAULT_COMPANY.overview1;
+  const overview2    = companyContent?.overview2    ?? DEFAULT_COMPANY.overview2;
+  const objectives   = companyContent?.objectives   ?? DEFAULT_COMPANY.objectives;
+  const missionText  = companyContent?.missionText  ?? DEFAULT_COMPANY.missionText;
+  const visionText   = companyContent?.visionText   ?? DEFAULT_COMPANY.visionText;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -26,10 +28,8 @@ function OurCompany() {
             <IoArrowBack /> Back to Home
           </Link>
           <p className="text-green-300 font-raleway font-semibold text-sm uppercase tracking-widest mb-2">About Us</p>
-          <h1 className="text-4xl xl:text-5xl font-bold font-raleway mb-4">Our Company</h1>
-          <p className="text-green-100 font-raleway text-lg max-w-2xl">
-            Our contribution to healthcare needs — incorporated in 1987 and committed to making quality pharmaceuticals accessible and affordable.
-          </p>
+          <h1 className="text-4xl xl:text-5xl font-bold font-raleway mb-4">{heroTitle}</h1>
+          <p className="text-green-100 font-raleway text-lg max-w-2xl">{heroSubtitle}</p>
         </div>
 
         {/* Company Overview */}
@@ -37,12 +37,8 @@ function OurCompany() {
           <p className="text-gray-500 font-raleway text-sm uppercase tracking-widest font-semibold mb-2 text-green-600">Who We Are</p>
           <h2 className="text-3xl xl:text-4xl font-bold font-raleway mb-6">MED-IN Hospital & Pharmaceuticals Services Limited</h2>
           <div className="grid xl:grid-cols-2 gap-10 text-gray-600 font-raleway text-[15px] leading-relaxed">
-            <p>
-              MED-IN Hospital & Pharmaceuticals Services Limited has its corporate office located at 5C Adekunle Lawal Street, Off 2nd Avenue, Ikoyi, Lagos State, Nigeria. Incorporated in <strong>1987</strong> as a wholesale pharmaceutical company, MED-IN has grown into a key player in the Nigerian health sector.
-            </p>
-            <p>
-              MED-IN's Intravenous (I.V.) fluid production plant began operations in <strong>2018</strong>, after registration of its premises by the Pharmaceutical Council of Nigeria (PCN). Products were approved by NAFDAC in the same year. The I.V. factory is situated on the Lagos-Ibadan Expressway, near Shagamu Interchange, Ogun State, with an installed capacity of <strong>3.6 million bottles per annum</strong> and allowance for 500% expansion. An ongoing project is installing Rommelag 360 equipment with a capacity of 21 million bottles per annum.
-            </p>
+            <p>{overview1}</p>
+            <p>{overview2}</p>
           </div>
         </section>
 
@@ -82,24 +78,20 @@ function OurCompany() {
             {openTab === "mission" && (
               <div>
                 <h3 className="text-2xl font-bold font-raleway mb-6">Our Mission</h3>
-                <p className="text-gray-600 font-raleway text-[16px] leading-relaxed max-w-3xl">
-                  Sustainable delivery of high-quality pharmaceutical products of World Health Organization (WHO) and National Agency for Food and Drug Administration (NAFDAC) prescribed standards, at an affordable cost to the Nigerian health sector and the sub-region.
-                </p>
+                <p className="text-gray-600 font-raleway text-[16px] leading-relaxed max-w-3xl">{missionText}</p>
               </div>
             )}
 
             {openTab === "vision" && (
               <div>
                 <h3 className="text-2xl font-bold font-raleway mb-6">Our Vision</h3>
-                <p className="text-gray-600 font-raleway text-[16px] leading-relaxed max-w-3xl">
-                  Meeting the health sector needs through the production of quality parenteral pharmaceutical products at affordable cost.
-                </p>
+                <p className="text-gray-600 font-raleway text-[16px] leading-relaxed max-w-3xl">{visionText}</p>
               </div>
             )}
           </div>
         </section>
 
-        {/* Cards Row */}
+        {/* Stats Cards */}
         <section className="py-14 px-4 xl:px-12 max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             <div className="p-8 bg-white border border-gray-100 shadow-md rounded-2xl hover:shadow-lg transition">

@@ -1,0 +1,11 @@
+# ── Pass the Authorization header through to PHP ─────────────────
+# Apache strips it by default — this rule puts it back in $_SERVER
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} ^(.+)$
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%1]
+
+# ── Protect sensitive files ───────────────────────────────────────
+<Files "config.php">
+    Order Allow,Deny
+    Deny from all
+</Files>

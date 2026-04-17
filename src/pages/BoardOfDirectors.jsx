@@ -3,29 +3,15 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
-
-const directors = [
-  {
-    name: "Dr. Jane Doe",
-    title: "Chairperson",
-    photo: "/images/jane.jpg",
-    bio: "Dr. Jane brings 20 years of leadership in the energy sector and sits on multiple international boards."
-  },
-  {
-    name: "Mr. John Smith",
-    title: "Managing Director",
-    photo: "/images/john.jpg",
-    bio: "A strategic thinker with expertise in business development and operations management."
-  },
-  {
-    name: "Mrs. Linda White",
-    title: "Director of Finance",
-    photo: "/images/linda.jpg",
-    bio: "Linda has over 15 years of experience in corporate finance and capital planning."
-  },
-];
+import { useSiteContent, DEFAULT_DIRECTORS } from "@/context/SiteContentContext";
+import { getBannerUrl } from "@/appwrite";
 
 function BoardOfDirectors() {
+  const { directorsContent } = useSiteContent();
+  const directors = Array.isArray(directorsContent) && directorsContent.length > 0
+    ? directorsContent
+    : DEFAULT_DIRECTORS;
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -42,21 +28,34 @@ function BoardOfDirectors() {
         </div>
         <section className="py-14 px-4 xl:px-12 max-w-6xl mx-auto">
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-            {directors.map((director, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 rounded-2xl shadow-md text-center hover:shadow-lg transition-shadow duration-300 border border-gray-100"
-              >
-                <img
-                  src={director.photo}
-                  alt={director.name}
-                  className="w-24 h-24 mx-auto rounded-full object-cover mb-4 bg-gray-100"
-                />
-                <h3 className="text-lg font-bold font-raleway">{director.name}</h3>
-                <p className="text-green-600 font-medium font-raleway text-sm">{director.title}</p>
-                <p className="text-sm text-gray-500 font-raleway mt-3 leading-relaxed">{director.bio}</p>
-              </div>
-            ))}
+            {directors.map((director, index) => {
+              const photoSrc = director.photoId
+                ? getBannerUrl(director.photoId)
+                : null;
+              return (
+                <div
+                  key={index}
+                  className="bg-white p-6 rounded-2xl shadow-md text-center hover:shadow-lg transition-shadow duration-300 border border-gray-100"
+                >
+                  {photoSrc ? (
+                    <img
+                      src={photoSrc}
+                      alt={director.name}
+                      className="w-24 h-24 mx-auto rounded-full object-cover mb-4"
+                    />
+                  ) : (
+                    <div className="w-24 h-24 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-4">
+                      <span className="text-green-600 font-bold font-raleway text-2xl">
+                        {(director.name || "?")[0]}
+                      </span>
+                    </div>
+                  )}
+                  <h3 className="text-lg font-bold font-raleway">{director.name}</h3>
+                  <p className="text-green-600 font-medium font-raleway text-sm">{director.title}</p>
+                  <p className="text-sm text-gray-500 font-raleway mt-3 leading-relaxed">{director.bio}</p>
+                </div>
+              );
+            })}
           </div>
         </section>
       </main>

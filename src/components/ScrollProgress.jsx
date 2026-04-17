@@ -5,7 +5,6 @@ function ScrollProgress() {
   const [navHeight, setNavHeight] = useState(65);
 
   useEffect(() => {
-    // Measure header height and keep it updated via ResizeObserver
     const header = document.querySelector("header");
     if (header) {
       setNavHeight(header.offsetHeight);
@@ -16,27 +15,14 @@ function ScrollProgress() {
   }, []);
 
   useEffect(() => {
-    let container = document.querySelector(".snap-container");
-
     const onScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = container;
+      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
       const total = scrollHeight - clientHeight;
       setProgress(total > 0 ? (scrollTop / total) * 100 : 0);
     };
 
-    // If container isn't mounted yet, retry after a frame
-    if (!container) {
-      const raf = requestAnimationFrame(() => {
-        container = document.querySelector(".snap-container");
-        if (container) {
-          container.addEventListener("scroll", onScroll, { passive: true });
-        }
-      });
-      return () => cancelAnimationFrame(raf);
-    }
-
-    container.addEventListener("scroll", onScroll, { passive: true });
-    return () => container.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (

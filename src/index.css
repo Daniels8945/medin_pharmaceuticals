@@ -192,45 +192,26 @@
 }
 
 /* =====================================================
-   SNAP SCROLL
+   SMOOTH SCROLL
    ===================================================== */
 html {
   scroll-behavior: smooth;
 }
 
+/* Page wrapper — offsets for fixed header, no snap constraints */
 .snap-container {
-  height: calc(100vh - 65px);
   margin-top: 65px;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 768px) {
   .snap-container {
-    height: calc(100vh - 80px);
     margin-top: 80px;
   }
 }
 
+/* Sections flow at natural height */
 .snap-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  min-height: calc(100vh - 65px);
   position: relative;
-}
-
-@media (min-width: 768px) {
-  .snap-section {
-    min-height: calc(100vh - 80px);
-  }
-}
-
-/* Allow natural height for the last section (contact + footer) */
-.snap-section:last-child {
-  scroll-snap-stop: normal;
-  min-height: auto;
 }
 
 /* =====================================================

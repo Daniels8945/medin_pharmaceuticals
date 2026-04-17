@@ -8,12 +8,14 @@ import {
   MdLogout,
   MdMenu,
   MdClose,
+  MdTune,
 } from "react-icons/md";
 import ReactDOM from "react-dom";
 
 const NAV = [
   { label: "Products",    icon: MdOutlineInventory2, to: "/dashboard" },
   { label: "Add Product", icon: MdAddBox,            to: "/addproducts" },
+  { label: "Site Editor", icon: MdTune,              to: "/site-editor" },
 ];
 
 function SidebarContent({ onClose }) {

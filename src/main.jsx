@@ -16,6 +16,8 @@ import Login from './Dashboard/Login'; // Login
 import Products from "./Dashboard/Allproducts"
 import PrivateRoute from './Dashboard/Main';
 import { AuthProvider } from "./Dashboard/AuthContext"
+import { SiteContentProvider } from "./context/SiteContentContext"
+import SiteEditor from "./Dashboard/SiteEditor"
 import { Toaster } from "@/components/ui/sonner"
 
 
@@ -31,6 +33,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/addproducts", element: <AddProducts /> },
       { path: "/dashboard", element: <Products /> },
+      { path: "/site-editor", element: <SiteEditor /> },
     ],
   },
 
@@ -46,6 +49,8 @@ const router = createBrowserRouter([
 ])
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
-    <RouterProvider router={router} />
+    <SiteContentProvider>
+      <RouterProvider router={router} />
+    </SiteContentProvider>
   </AuthProvider>
 )
