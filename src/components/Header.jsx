@@ -10,6 +10,7 @@ import ReactPlayer from "react-player";
 import iv from "../assets/IVFluids-urgent-care.jpg";
 import DistributorModal from "./DistributorModal";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { getBannerUrl } from "@/appwrite";
 
 /* ── Nav Icons ────────────────────────────────────────────────────────────── */
 import { FaHouse } from "react-icons/fa6";
@@ -32,26 +33,25 @@ import {
 } from "@/components/ui/navigation-menu";
 
 
-const ListItem = React.forwardRef(({ className, title, children, href, ...props }, ref) => (
-  <li>
-    <NavigationMenuLink asChild>
-      <a
-        ref={ref}
-        href={href || "#"}
-        className={
-          "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground " +
-          (className || "")
+const ListItem = React.forwardRef(({ className, title, children, href, ...props }, ref) => {
+  const cls = "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground " + (className || "");
+  const content = (
+    <>
+      <div className="text-sm font-medium leading-none">{title}</div>
+      {children && <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>}
+    </>
+  );
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        {href && href.startsWith("/")
+          ? <Link ref={ref} to={href} className={cls} {...props}>{content}</Link>
+          : <a ref={ref} href={href || "#"} className={cls} {...props}>{content}</a>
         }
-        {...props}
-      >
-        <div className="text-sm font-medium leading-none">{title}</div>
-        {children && (
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
-        )}
-      </a>
-    </NavigationMenuLink>
-  </li>
-));
+      </NavigationMenuLink>
+    </li>
+  );
+});
 ListItem.displayName = "ListItem";
 
 const vidUrl = "https://youtu.be/JNIeYp4z41E?si=VHcbssEJfxa6jQQw";
@@ -258,11 +258,14 @@ function Header() {
   const [isDistributorOpen, setIsDistributorOpen] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const location = useLocation();
-  const { headerContent, navProductsContent } = useSiteContent();
+  const { headerContent, navProductsContent, navPanelContent } = useSiteContent();
   const ctaText = headerContent?.ctaText || "Become A Distributor";
   const items = Array.isArray(navProductsContent) && navProductsContent.length > 0
     ? navProductsContent
-    : [{ name: "New Product", description: "iV fluid" }];
+    : [{ name: "New Product", description: "iV fluid", link: "" }];
+  const panelTitle = navPanelContent?.title || "Our Products";
+  const panelDesc  = navPanelContent?.description || "Cutting-edge pharmaceutical formulations driven by years of research.";
+  const panelImg   = getBannerUrl(navPanelContent?.imageId) || iv;
 
   React.useEffect(() => { setIsOpen(false); }, [location.pathname]);
 
@@ -290,16 +293,14 @@ function Header() {
                       to="/exploreproducts"
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     >
-                      <img src={iv} alt="IV Fluids" className="rounded mb-2" />
-                      <div className="mb-2 text-lg font-medium">Our Products</div>
-                      <p className="text-sm leading-tight text-muted-foreground">
-                        Cutting-edge pharmaceutical formulations driven by years of research.
-                      </p>
+                      <img src={panelImg} alt={panelTitle} className="rounded mb-2" />
+                      <div className="mb-2 text-lg font-medium">{panelTitle}</div>
+                      <p className="text-sm leading-tight text-muted-foreground">{panelDesc}</p>
                     </Link>
                   </NavigationMenuLink>
                 </li>
                 {items.map((item, i) => (
-                  <ListItem key={i} title={item.name}>{item.description}</ListItem>
+                  <ListItem key={i} title={item.name} href={item.link || undefined}>{item.description}</ListItem>
                 ))}
               </ul>
             </NavigationMenuContent>

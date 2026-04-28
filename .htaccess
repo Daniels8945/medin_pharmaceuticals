@@ -1,15 +1,20 @@
+Options -MultiViews
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
+  # Allow the real index file
   RewriteRule ^index\.html$ - [L]
 
-  # Pass PHP API and uploaded files through directly — do NOT redirect to index.html
-  RewriteRule ^api/     - [L]
+  # Do not rewrite API or uploaded files
+  RewriteRule ^api/ - [L]
   RewriteRule ^uploads/ - [L]
 
-  # All other non-file, non-directory requests go to the React app
+  # Let existing files and folders pass through
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
+
+  # React SPA fallback
   RewriteRule . /index.html [L]
 </IfModule>

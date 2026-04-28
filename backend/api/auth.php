@@ -22,11 +22,11 @@ if ($method === 'POST') {
     }
 
     $pdo  = getDB();
-    $stmt = $pdo->prepare('SELECT id, email, password_hash FROM admin_users WHERE email = ? LIMIT 1');
+    $stmt = $pdo->prepare('SELECT id, email, password FROM admin_users WHERE email = ? LIMIT 1');
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    if (!$user || !password_verify($password, $user['password_hash'])) {
+    if (!$user || !password_verify($password, $user['password'])) {
         respond(['error' => 'Invalid email or password'], 401);
     }
 

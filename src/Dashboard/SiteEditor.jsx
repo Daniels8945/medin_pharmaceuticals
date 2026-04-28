@@ -3,16 +3,17 @@ import AdminLayout from "./AdminLayout";
 import {
   useSiteContent,
   DEFAULT_HERO, DEFAULT_HEADER, DEFAULT_SECTIONS, DEFAULT_ABOUT, DEFAULT_FOOTER,
-  DEFAULT_NAV_PRODUCTS, DEFAULT_MISSION, DEFAULT_COMPANY, DEFAULT_DIRECTORS,
+  DEFAULT_NAV_PRODUCTS, DEFAULT_NAV_PANEL, DEFAULT_MISSION, DEFAULT_COMPANY, DEFAULT_DIRECTORS,
   DEFAULT_WORKPLACE, DEFAULT_CAREERS,
 } from "@/context/SiteContentContext";
-import { setSiteContent, uploadImage, getBannerUrl } from "@/appwrite";
+import { setSiteContent, uploadImage, getBannerUrl, getPages, savePage, deletePage } from "@/appwrite";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import {
   MdImage, MdTextFields, MdViewModule, MdSave, MdCloudUpload, MdDeleteForever,
   MdCheckCircle, MdLocationOn, MdAdd, MdBusiness, MdPeopleAlt,
-  MdApartment, MdWork, MdFlag, MdMenu, MdClose,
+  MdApartment, MdWork, MdFlag, MdMenu, MdClose, MdArticle,
+  MdEdit, MdPublish, MdUnpublished, MdOpenInNew,
 } from "react-icons/md";
 import { FaUsers, FaPills } from "react-icons/fa";
 
@@ -41,6 +42,12 @@ const NAV_GROUPS = [
       { id: "directors", label: "Board of Directors",   icon: MdPeopleAlt },
       { id: "workplace", label: "Workplace & Partners", icon: MdApartment },
       { id: "careers",   label: "Careers",              icon: MdWork },
+    ],
+  },
+  {
+    group: "Content",
+    items: [
+      { id: "dynamic-pages", label: "Dynamic Pages", icon: MdArticle },
     ],
   },
   {
@@ -307,18 +314,23 @@ function HeaderTab({ headerContent, refreshContent }) {
 /* ════════════════════════════════════════════════════════════════════
    TAB: NAV PRODUCTS
    ════════════════════════════════════════════════════════════════════ */
-function NavProductsTab({ navProductsContent, refreshContent }) {
+function NavProductsTab({ navProductsContent, navPanelContent, refreshContent }) {
   const [items, setItems] = useState(
     Array.isArray(navProductsContent) && navProductsContent.length > 0
-      ? navProductsContent
-      : [...DEFAULT_NAV_PRODUCTS]
+      ? navProductsContent : [...DEFAULT_NAV_PRODUCTS]
   );
+  const [panel, setPanel] = useState({ ...DEFAULT_NAV_PANEL, ...(navPanelContent || {}) });
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
+  const [imgUploading, setImgUploading] = useState(false);
 
   useEffect(() => {
     if (Array.isArray(navProductsContent) && navProductsContent.length > 0) setItems(navProductsContent);
   }, [navProductsContent]);
+
+  useEffect(() => {
+    if (navPanelContent) setPanel(p => ({ ...p, ...navPanelContent }));
+  }, [navPanelContent]);
 
   const update = (i, field, val) => setItems(prev => prev.map((item, idx) => idx === i ? { ...item, [field]: val } : item));
 
@@ -326,7 +338,10 @@ function NavProductsTab({ navProductsContent, refreshContent }) {
     e.preventDefault();
     setSaving(true);
     try {
-      await setSiteContent("navProducts", items);
+      await Promise.all([
+        setSiteContent("navProducts", items),
+        setSiteContent("navPanel", panel),
+      ]);
       await refreshContent();
       setDone(true);
       setTimeout(() => setDone(false), 2000);
@@ -337,29 +352,59 @@ function NavProductsTab({ navProductsContent, refreshContent }) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-2xl">
-      <SectionCard title="Products Dropdown">
+      <SectionCard title="Panel (left side of dropdown)">
+        <p className="text-xs text-zinc-400 font-raleway -mt-2">The featured card shown on the left of the Products dropdown.</p>
+        <Field label="Panel Title">
+          <input className={inputClass} value={panel.title} onChange={e => setPanel(p => ({ ...p, title: e.target.value }))} placeholder="e.g. Our Products" />
+        </Field>
+        <Field label="Panel Description">
+          <input className={inputClass} value={panel.description} onChange={e => setPanel(p => ({ ...p, description: e.target.value }))} placeholder="Short tagline..." />
+        </Field>
+        <Field label="Panel Image">
+          <ImageUploadButton
+            currentId={panel.imageId}
+            onUpload={async (file) => {
+              setImgUploading(true);
+              try {
+                const id = await uploadImage(file);
+                setPanel(p => ({ ...p, imageId: id }));
+              } catch { toast.error("Image upload failed"); }
+              setImgUploading(false);
+            }}
+            uploading={imgUploading}
+          />
+        </Field>
+      </SectionCard>
+
+      <SectionCard title="Product Items (right side of dropdown)">
         <div className="flex items-center justify-between -mt-2">
-          <p className="text-xs text-zinc-400 font-raleway">These appear in the header navigation Products menu.</p>
-          <button type="button" onClick={() => setItems(p => [...p, { name: "", description: "" }])}
+          <p className="text-xs text-zinc-400 font-raleway">Each item appears as a clickable link in the dropdown.</p>
+          <button type="button" onClick={() => setItems(p => [...p, { name: "", description: "", link: "" }])}
             className="flex items-center gap-1.5 bg-green-50 hover:bg-green-100 text-green-600 font-semibold text-sm font-raleway px-4 py-2 rounded-xl transition-colors border border-green-200">
             <MdAdd /> Add
           </button>
         </div>
         {items.map((item, i) => (
-          <div key={i} className="flex flex-col sm:flex-row gap-3 items-end p-4 bg-zinc-50 rounded-xl border border-zinc-200">
-            <Field label="Product Name" className="flex-1">
-              <input className={inputClass} value={item.name} onChange={e => update(i, "name", e.target.value)} placeholder="e.g. IV Fluids" />
+          <div key={i} className="flex flex-col gap-3 p-4 bg-zinc-50 rounded-xl border border-zinc-200">
+            <div className="flex gap-3 items-end">
+              <Field label="Product Name" className="flex-1">
+                <input className={inputClass} value={item.name} onChange={e => update(i, "name", e.target.value)} placeholder="e.g. IV Fluids" />
+              </Field>
+              <Field label="Short Description" className="flex-1">
+                <input className={inputClass} value={item.description} onChange={e => update(i, "description", e.target.value)} placeholder="e.g. 500ml sterile solution" />
+              </Field>
+              <button type="button" onClick={() => setItems(p => p.filter((_, idx) => idx !== i))}
+                className="flex items-center gap-1 text-red-400 hover:text-red-600 text-sm font-raleway px-3 py-2.5 rounded-lg hover:bg-red-50 transition-colors shrink-0">
+                <MdDeleteForever className="text-base" /> Remove
+              </button>
+            </div>
+            <Field label="Link (page this product goes to)">
+              <input className={inputClass} value={item.link || ""} onChange={e => update(i, "link", e.target.value)} placeholder="e.g. /page/iv-fluids or /exploreproducts" />
             </Field>
-            <Field label="Short Description" className="flex-1">
-              <input className={inputClass} value={item.description} onChange={e => update(i, "description", e.target.value)} placeholder="e.g. 500ml sterile solution" />
-            </Field>
-            <button type="button" onClick={() => setItems(p => p.filter((_, idx) => idx !== i))}
-              className="flex items-center gap-1 text-red-400 hover:text-red-600 text-sm font-raleway px-3 py-2.5 rounded-lg hover:bg-red-50 transition-colors shrink-0">
-              <MdDeleteForever className="text-base" /> Remove
-            </button>
           </div>
         ))}
       </SectionCard>
+
       <div className="max-w-xs"><SaveButton saving={saving} done={done} label="Save Products" /></div>
     </form>
   );
@@ -997,6 +1042,351 @@ function SectionsTab({ sectionsConfig, refreshContent }) {
   );
 }
 
+/* ════════════════════════════════════════════════════════════════════
+   TAB: DYNAMIC PAGES
+   ════════════════════════════════════════════════════════════════════ */
+
+const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const slugify = (str) =>
+  str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+const EMPTY_PAGE = {
+  id: 0, slug: "", title: "", subtitle: "", body: "",
+  image_id: "", video_url: "", icon: "", card_color: "green",
+  published: true, sort_order: 0,
+};
+
+const PAGE_ICONS = [
+  { value: "",           label: "None" },
+  { value: "health",     label: "Health & Safety" },
+  { value: "science",    label: "Science" },
+  { value: "medication", label: "Medication" },
+  { value: "hospital",   label: "Hospital" },
+  { value: "biotech",    label: "Biotech" },
+  { value: "verified",   label: "Verified / Quality" },
+  { value: "star",       label: "Star" },
+  { value: "news",       label: "News / Article" },
+  { value: "award",      label: "Award" },
+  { value: "info",       label: "Info" },
+  { value: "business",   label: "Business" },
+  { value: "flask",      label: "Flask / Lab" },
+  { value: "leaf",       label: "Leaf / Nature" },
+];
+
+const PAGE_COLORS = [
+  { value: "green",  label: "Green"  },
+  { value: "blue",   label: "Blue"   },
+  { value: "purple", label: "Purple" },
+  { value: "orange", label: "Orange" },
+  { value: "red",    label: "Red"    },
+];
+
+function DynamicPagesTab() {
+  const [pages,       setPages]       = useState([]);
+  const [loading,     setLoading]     = useState(true);
+  const [editing,     setEditing]     = useState(null);   // null = list, {} = new/edit
+  const [form,        setForm]        = useState(EMPTY_PAGE);
+  const [saving,      setSaving]      = useState(false);
+  const [done,        setDone]        = useState(false);
+  const [imgUploading,setImgUploading]= useState(false);
+  const [deleting,    setDeleting]    = useState(null);   // id being deleted
+
+  const load = () => {
+    setLoading(true);
+    getPages({ all: true }).then((data) => { setPages(data); setLoading(false); });
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const openNew  = () => { setForm({ ...EMPTY_PAGE }); setEditing("new"); };
+  const openEdit = (p) => { setForm({ ...p, published: Boolean(Number(p.published)) }); setEditing(p.id); };
+  const closeEdit = () => { setEditing(null); setDone(false); };
+
+  const set = (key, val) => setForm(prev => ({ ...prev, [key]: val }));
+
+  const handleTitleBlur = () => {
+    if (!form.slug && form.title) set("slug", slugify(form.title));
+  };
+
+  const handleImageUpload = async (file) => {
+    setImgUploading(true);
+    try {
+      const id = await uploadImage(file);
+      set("image_id", id);
+      toast.success("Image uploaded!");
+    } catch { toast.error("Image upload failed."); }
+    setImgUploading(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!SLUG_RE.test(form.slug)) {
+      toast.error("Slug must be lowercase letters, numbers and hyphens only.");
+      return;
+    }
+    setSaving(true);
+    try {
+      await savePage({ ...form, id: editing === "new" ? 0 : editing });
+      toast.success(editing === "new" ? "Page created!" : "Page saved!");
+      setDone(true);
+      setTimeout(() => setDone(false), 2000);
+      load();
+      if (editing === "new") closeEdit();
+    } catch (err) { toast.error(err.message ?? "Failed to save page."); }
+    setSaving(false);
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this page? This cannot be undone.")) return;
+    setDeleting(id);
+    try {
+      await deletePage(id);
+      toast.success("Page deleted.");
+      load();
+      if (editing === id) closeEdit();
+    } catch { toast.error("Failed to delete page."); }
+    setDeleting(null);
+  };
+
+  /* ── List view ─────────────────────────────────────────────────── */
+  if (editing === null) {
+    return (
+      <div className="flex flex-col gap-5 max-w-3xl">
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-zinc-500 font-raleway">
+            Create rich pages — with text, images, icons and videos — that appear as
+            clickable cards on your landing page.
+          </p>
+          <button
+            type="button"
+            onClick={openNew}
+            className="shrink-0 flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-bold font-raleway px-4 py-2.5 rounded-xl transition-colors shadow-sm"
+          >
+            <MdAdd className="text-base" /> New Page
+          </button>
+        </div>
+
+        {loading ? (
+          <div className="flex flex-col gap-3">
+            {[1,2,3].map(i => (
+              <div key={i} className="h-16 bg-zinc-100 rounded-xl animate-pulse" />
+            ))}
+          </div>
+        ) : pages.length === 0 ? (
+          <div className="flex flex-col items-center gap-3 py-16 text-center">
+            <MdArticle className="text-5xl text-zinc-200" />
+            <p className="text-zinc-400 font-raleway text-sm">No pages yet. Create your first one!</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {pages.map((p) => (
+              <div key={p.id}
+                className="flex items-center gap-3 bg-white border border-zinc-200 rounded-xl px-4 py-3 hover:border-zinc-300 transition-colors"
+              >
+                {/* Status dot */}
+                <span className={cn(
+                  "w-2 h-2 rounded-full shrink-0",
+                  Number(p.published) ? "bg-green-500" : "bg-zinc-300"
+                )} />
+
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold font-raleway text-zinc-800 truncate">{p.title}</p>
+                  <p className="text-xs text-zinc-400 font-worksans truncate">/page/{p.slug}</p>
+                </div>
+
+                {/* Published badge */}
+                <span className={cn(
+                  "text-[10px] font-bold tracking-wide uppercase px-2 py-0.5 rounded-full shrink-0",
+                  Number(p.published)
+                    ? "bg-green-50 text-green-700"
+                    : "bg-zinc-100 text-zinc-400"
+                )}>
+                  {Number(p.published) ? "Live" : "Draft"}
+                </span>
+
+                {/* Preview link */}
+                <a
+                  href={`/page/${p.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 rounded-lg transition-colors"
+                  title="Preview page"
+                >
+                  <MdOpenInNew className="text-base" />
+                </a>
+
+                {/* Edit */}
+                <button type="button" onClick={() => openEdit(p)}
+                  className="p-2 text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 rounded-lg transition-colors"
+                  title="Edit page"
+                >
+                  <MdEdit className="text-base" />
+                </button>
+
+                {/* Delete */}
+                <button type="button" onClick={() => handleDelete(p.id)}
+                  disabled={deleting === p.id}
+                  className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-40"
+                  title="Delete page"
+                >
+                  <MdDeleteForever className="text-base" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  /* ── Edit / New form ───────────────────────────────────────────── */
+  return (
+    <form onSubmit={handleSubmit} className="max-w-2xl flex flex-col gap-5">
+      {/* Back button */}
+      <button type="button" onClick={closeEdit}
+        className="flex items-center gap-1.5 text-zinc-500 hover:text-zinc-800 text-sm font-semibold font-raleway w-fit transition-colors"
+      >
+        ← Back to pages
+      </button>
+
+      <SectionCard title={editing === "new" ? "New Page" : "Edit Page"}>
+        <Field label="Title" hint="Shown as the page heading and card title.">
+          <input
+            required
+            className={inputClass}
+            value={form.title}
+            onChange={e => set("title", e.target.value)}
+            onBlur={handleTitleBlur}
+            placeholder="e.g. Our Research Program"
+          />
+        </Field>
+
+        <Field label="Slug" hint="URL-friendly ID: /page/your-slug — lowercase letters, numbers, hyphens only.">
+          <input
+            required
+            className={inputClass}
+            value={form.slug}
+            onChange={e => set("slug", slugify(e.target.value))}
+            placeholder="e.g. our-research-program"
+          />
+        </Field>
+
+        <Field label="Subtitle / Short description" hint="Shown under the title and on the card preview.">
+          <textarea
+            rows={2}
+            className={textareaClass}
+            value={form.subtitle}
+            onChange={e => set("subtitle", e.target.value)}
+            placeholder="A brief description of this page…"
+          />
+        </Field>
+
+        <Field label="Body Content" hint="Main page text. Separate paragraphs with a blank line.">
+          <textarea
+            rows={8}
+            className={textareaClass}
+            value={form.body}
+            onChange={e => set("body", e.target.value)}
+            placeholder="Write the full content here…"
+          />
+        </Field>
+      </SectionCard>
+
+      <SectionCard title="Media">
+        <div className="flex items-start gap-5">
+          <ImageUploadButton
+            fileId={form.image_id}
+            onUpload={handleImageUpload}
+            uploading={imgUploading}
+            label="Upload Image"
+            size="md"
+          />
+          <div className="flex-1 flex flex-col gap-4">
+            <Field label="Video URL" hint="YouTube link or direct .mp4 URL — embedded on the page.">
+              <input
+                type="url"
+                className={inputClass}
+                value={form.video_url}
+                onChange={e => set("video_url", e.target.value)}
+                placeholder="https://youtu.be/..."
+              />
+            </Field>
+          </div>
+        </div>
+      </SectionCard>
+
+      <SectionCard title="Card Appearance">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field label="Card Colour">
+            <select
+              className={inputClass}
+              value={form.card_color}
+              onChange={e => set("card_color", e.target.value)}
+            >
+              {PAGE_COLORS.map(c => (
+                <option key={c.value} value={c.value}>{c.label}</option>
+              ))}
+            </select>
+          </Field>
+
+          <Field label="Icon">
+            <select
+              className={inputClass}
+              value={form.icon}
+              onChange={e => set("icon", e.target.value)}
+            >
+              {PAGE_ICONS.map(ic => (
+                <option key={ic.value} value={ic.value}>{ic.label}</option>
+              ))}
+            </select>
+          </Field>
+
+          <Field label="Sort Order" hint="Lower numbers appear first.">
+            <input
+              type="number"
+              className={inputClass}
+              value={form.sort_order}
+              onChange={e => set("sort_order", Number(e.target.value))}
+              min={0}
+            />
+          </Field>
+        </div>
+      </SectionCard>
+
+      <SectionCard title="Visibility">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-zinc-800 font-raleway">
+              {form.published ? <span className="flex items-center gap-1.5"><MdPublish className="text-green-500" /> Live — visible on the site</span>
+                              : <span className="flex items-center gap-1.5"><MdUnpublished className="text-zinc-400" /> Draft — hidden from visitors</span>}
+            </p>
+            <p className="text-xs text-zinc-400 font-raleway mt-0.5">
+              Unpublished pages are still accessible via their direct URL.
+            </p>
+          </div>
+          <Toggle checked={form.published} onChange={val => set("published", val)} />
+        </div>
+      </SectionCard>
+
+      <div className="flex items-center gap-3">
+        <div className="flex-1 max-w-xs">
+          <SaveButton saving={saving} done={done} label={editing === "new" ? "Create Page" : "Save Page"} />
+        </div>
+        {editing !== "new" && (
+          <button
+            type="button"
+            onClick={() => handleDelete(editing)}
+            disabled={deleting === editing}
+            className="flex items-center gap-1.5 px-4 py-3 rounded-xl text-sm font-bold font-raleway text-red-500 hover:bg-red-50 transition-colors border border-red-200 disabled:opacity-40"
+          >
+            <MdDeleteForever /> Delete Page
+          </button>
+        )}
+      </div>
+    </form>
+  );
+}
+
 /* ── Sidebar (defined outside SiteEditor to keep linter happy and avoid re-mount on every render) */
 function Sidebar({ active, setActive, onSelect }) {
   return (
@@ -1035,7 +1425,7 @@ function Sidebar({ active, setActive, onSelect }) {
 export default function SiteEditor() {
   const {
     heroContent, headerContent, sectionsConfig, aboutContent, footerContent,
-    navProductsContent, missionContent, companyContent, directorsContent,
+    navProductsContent, navPanelContent, missionContent, companyContent, directorsContent,
     workplaceContent, careersContent, refreshContent,
   } = useSiteContent();
 
@@ -1097,13 +1487,14 @@ export default function SiteEditor() {
           {active === "about"     && <AboutTab         aboutContent={aboutContent}             refreshContent={refreshContent} />}
           {active === "footer"    && <FooterTab        footerContent={footerContent}           refreshContent={refreshContent} />}
           {active === "header"    && <HeaderTab        headerContent={headerContent}           refreshContent={refreshContent} />}
-          {active === "products"  && <NavProductsTab   navProductsContent={navProductsContent} refreshContent={refreshContent} />}
+          {active === "products"  && <NavProductsTab   navProductsContent={navProductsContent} navPanelContent={navPanelContent} refreshContent={refreshContent} />}
           {active === "mission"   && <MissionTab       missionContent={missionContent}         refreshContent={refreshContent} />}
           {active === "company"   && <CompanyTab       companyContent={companyContent}         refreshContent={refreshContent} />}
           {active === "directors" && <DirectorsTab     directorsContent={directorsContent}     refreshContent={refreshContent} />}
           {active === "workplace" && <WorkplaceTab     workplaceContent={workplaceContent}     refreshContent={refreshContent} />}
-          {active === "careers"   && <CareersTab       careersContent={careersContent}         refreshContent={refreshContent} />}
-          {active === "sections"  && <SectionsTab      sectionsConfig={sectionsConfig}         refreshContent={refreshContent} />}
+          {active === "careers"       && <CareersTab       careersContent={careersContent}         refreshContent={refreshContent} />}
+          {active === "sections"      && <SectionsTab      sectionsConfig={sectionsConfig}         refreshContent={refreshContent} />}
+          {active === "dynamic-pages" && <DynamicPagesTab />}
         </div>
       </div>
     </AdminLayout>

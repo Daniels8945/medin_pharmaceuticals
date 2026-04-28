@@ -33,10 +33,16 @@ export const DEFAULT_ABOUT = {
 };
 
 export const DEFAULT_NAV_PRODUCTS = [
-  { name: "New Product", description: "iV fluid" },
-  { name: "New Product", description: "iV fluid" },
-  { name: "New Product", description: "iV fluid" },
+  { name: "New Product", description: "iV fluid", link: "" },
+  { name: "New Product", description: "iV fluid", link: "" },
+  { name: "New Product", description: "iV fluid", link: "" },
 ];
+
+export const DEFAULT_NAV_PANEL = {
+  title: "Our Products",
+  description: "Cutting-edge pharmaceutical formulations driven by years of research.",
+  imageId: "",
+};
 
 export const DEFAULT_FOOTER = {
   corporateEmail: "info@medinpharma.com",
@@ -163,6 +169,7 @@ export function SiteContentProvider({ children }) {
   const [aboutContent,     setAboutContent]     = useState(DEFAULT_ABOUT);
   const [footerContent,    setFooterContent]    = useState(DEFAULT_FOOTER);
   const [navProductsContent, setNavProductsContent] = useState(DEFAULT_NAV_PRODUCTS);
+  const [navPanelContent,    setNavPanelContent]    = useState(DEFAULT_NAV_PANEL);
   const [missionContent,   setMissionContent]   = useState(DEFAULT_MISSION);
   const [companyContent,   setCompanyContent]   = useState(DEFAULT_COMPANY);
   const [directorsContent, setDirectorsContent] = useState(DEFAULT_DIRECTORS);
@@ -173,7 +180,7 @@ export function SiteContentProvider({ children }) {
   const refreshContent = useCallback(async () => {
     setContentLoading(true);
     try {
-      const [hero, header, sections, about, footer, navProducts, mission, company, directors, workplace, careers] =
+      const [hero, header, sections, about, footer, navProducts, navPanel, mission, company, directors, workplace, careers] =
         await Promise.all([
           getSiteContent("hero"),
           getSiteContent("header"),
@@ -181,6 +188,7 @@ export function SiteContentProvider({ children }) {
           getSiteContent("about"),
           getSiteContent("footer"),
           getSiteContent("navProducts"),
+          getSiteContent("navPanel"),
           getSiteContent("mission"),
           getSiteContent("company"),
           getSiteContent("directors"),
@@ -193,6 +201,7 @@ export function SiteContentProvider({ children }) {
       if (about)       setAboutContent    (prev => ({ ...prev, ...about }));
       if (footer)      setFooterContent   (prev => ({ ...prev, ...footer }));
       if (navProducts) setNavProductsContent(navProducts);
+      if (navPanel)    setNavPanelContent   (prev => ({ ...prev, ...navPanel }));
       if (mission)     setMissionContent  (prev => ({ ...prev, ...mission }));
       if (company)     setCompanyContent  (prev => ({ ...prev, ...company }));
       if (directors && Array.isArray(directors)) setDirectorsContent(directors);
@@ -210,7 +219,7 @@ export function SiteContentProvider({ children }) {
     <SiteContentContext.Provider
       value={{
         heroContent, headerContent, sectionsConfig, aboutContent, footerContent,
-        navProductsContent, missionContent, companyContent, directorsContent,
+        navProductsContent, navPanelContent, missionContent, companyContent, directorsContent,
         workplaceContent, careersContent,
         refreshContent, contentLoading,
       }}

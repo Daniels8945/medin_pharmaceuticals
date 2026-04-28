@@ -4,6 +4,7 @@ import Products from "./components/ProductsPage";
 import AboutUs from "./components/AboutUs";
 import Footer from "./components/Footer";
 import Contact from "./components/Contact";
+import FeaturedSection from "./components/FeaturedSection";
 import ScrollProgress from "./components/ScrollProgress";
 import PageTransition from "./components/PageTransition";
 import { useScrollReveal } from "./lib/useScrollReveal";
@@ -37,6 +38,7 @@ function App() {
               <AboutUs />
             </section>
           )}
+          <FeaturedSection />
           {sectionsConfig.showContact && (
             <section className="snap-section" id="contact-section">
               <Contact />

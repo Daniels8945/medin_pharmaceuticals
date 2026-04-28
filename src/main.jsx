@@ -12,12 +12,14 @@ import OurCompany from "./pages/OurCompany"
 import OurWorkplace from "./pages/OurWorkplace"
 import Careers from "./pages/Careers"
 import ContactPage from "./pages/ContactPage"
+import DynamicPage from "./pages/DynamicPage"
 import Login from './Dashboard/Login'; // Login
 import Products from "./Dashboard/Allproducts"
 import PrivateRoute from './Dashboard/Main';
 import { AuthProvider } from "./Dashboard/AuthContext"
 import { SiteContentProvider } from "./context/SiteContentContext"
 import SiteEditor from "./Dashboard/SiteEditor"
+import UsersPage from "./Dashboard/Users"
 import { Toaster } from "@/components/ui/sonner"
 
 
@@ -34,6 +36,7 @@ const router = createBrowserRouter([
       { path: "/addproducts", element: <AddProducts /> },
       { path: "/dashboard", element: <Products /> },
       { path: "/site-editor", element: <SiteEditor /> },
+      { path: "/users", element: <UsersPage /> },
     ],
   },
 
@@ -46,6 +49,7 @@ const router = createBrowserRouter([
   { path:"/our-workplace", element: <OurWorkplace />},
   { path:"/careers", element: <Careers />},
   { path:"/contact", element: <ContactPage />},
+  { path:"/page/:slug", element: <DynamicPage /> },
 ])
 createRoot(document.getElementById('root')).render(
   <AuthProvider>

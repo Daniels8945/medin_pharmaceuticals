@@ -10,7 +10,7 @@ const BASE = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '');
 
 // ── Token helpers (JWT stored in localStorage) ────────────────────
 const TOKEN_KEY = 'medin_admin_token';
-const getToken  = ()  => localStorage.getItem(TOKEN_KEY);
+export const getToken = ()  => localStorage.getItem(TOKEN_KEY);
 const setToken  = (t) => localStorage.setItem(TOKEN_KEY, t);
 const clearToken = () => localStorage.removeItem(TOKEN_KEY);
 
@@ -157,4 +157,50 @@ export const deleteItems = async (documentId, imageId) => {
         headers: authHeaders(),
     });
     if (!res.ok) throw new Error('Failed to delete product');
+};
+
+
+// ── Dynamic Pages ─────────────────────────────────────────────────
+
+/** List pages. Pass { all: true } (with admin token) to include unpublished. */
+export const getPages = async ({ all = false } = {}) => {
+    try {
+        const url  = all ? `${BASE}/api/pages.php?all=1` : `${BASE}/api/pages.php`;
+        const opts = all ? { headers: authHeaders() } : {};
+        const res  = await fetch(url, opts);
+        if (!res.ok) return [];
+        return res.json();
+    } catch { return []; }
+};
+
+/** Fetch a single published page by slug. Returns null if not found. */
+export const getPage = async (slug) => {
+    try {
+        const res = await fetch(`${BASE}/api/pages.php?slug=${encodeURIComponent(slug)}`);
+        if (!res.ok) return null;
+        return res.json();
+    } catch { return null; }
+};
+
+/** Create or update a dynamic page. Include `id` in data to update. */
+export const savePage = async (data) => {
+    const res = await fetch(`${BASE}/api/pages.php`, {
+        method:  'POST',
+        headers: authHeaders(),
+        body:    JSON.stringify(data),
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error ?? 'Failed to save page');
+    }
+    return res.json();
+};
+
+/** Delete a dynamic page by its numeric id. */
+export const deletePage = async (id) => {
+    const res = await fetch(`${BASE}/api/pages.php?id=${id}`, {
+        method:  'DELETE',
+        headers: authHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete page');
 };

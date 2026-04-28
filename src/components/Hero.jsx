@@ -23,9 +23,12 @@ function Hero() {
   return (
     <div className="m-auto relative top-0 p-0 flex h-[620px] xl:h-full">
       <div className="relative w-full flex flex-col items-center h-[360px] xl:h-full">
-            <div className="relative w-full h-[360px] h--full xl:h-screen flex flex-col">
+
+
+            <div className="relative w-full h-[360px] xl:h-screen flex flex-col">
                 <img src={bannerSrc} alt="banner image" className="h-full xl:h-screen  object-cover"/>
             </div>
+            
             <div className="hidden xl:block absolute left-0 w-1/2 h-full bg-linear-to-r from-green-500 to-green-0 opacity-70"></div>
 
                 <div className="xl:pt-30 px-4 lg:px-4 p-0 m-0 absolute mb:top-1-/2 w-full min-h-2/2 flex flex-col items-center">
